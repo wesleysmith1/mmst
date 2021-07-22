@@ -1,0 +1,33 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Target 
+{% endblock %}
+
+{% block content %}
+
+    {% if player.role == 'worker' %}
+
+        {% if player.group.target_round == 9 %}
+            <div>
+                Your performance target in period {{player.round_number}} is: {{player.group.final_target}}.
+            </div>
+        {% else %}
+            <div>
+                You did not reached an agreed upon target with the manager. The manager has set a target of {{player.group.final_target}} for the period.
+            </div>
+        {% endif %}
+
+    {% elif player.role == 'manager' %}
+
+        <div>
+            The performance target for the worker in period {{player.round_number}} is: {{player.group.final_target}}.
+        </div>
+
+    {% endif %}
+
+    <br>
+    {% next_button %}
+
+{% endblock %}

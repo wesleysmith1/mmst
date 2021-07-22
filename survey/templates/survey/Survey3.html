@@ -1,0 +1,78 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Survey
+{% endblock %}
+
+{% block content %}
+
+    <!-- ==================scale question======================== -->
+
+    <p style="margin-left: 50px;">
+        (1) Strongly disagree (4) Neither disagree nor agree (7) Strongly agree
+    </p>
+
+    <hr>
+    <div class="container" style="alignment:center">
+        <div class="row" style="text-align: center; font-size: 12px;">
+            <div class="col-sm-5">
+            </div>
+            <div class="col-sm-1">
+                Strongly disagree
+            </div>
+            <div class="col-sm-1">
+                
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+                Neither disagree nor agree
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+                Strongly agree
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.pj1.label }}
+            </div>
+            {% for choice in form.pj1 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.pj2.label }}
+            </div>
+            {% for choice in form.pj2 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.pj3.label }}
+            </div>
+            {% for choice in form.pj3 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+    </div>
+
+    <!-- ========================================== -->
+
+    {% next_button %}
+
+{% endblock %}

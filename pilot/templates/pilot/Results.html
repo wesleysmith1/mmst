@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Feedback Period {{player.round_number}}
+{% endblock %}
+
+<!-- =========================================================================== -->
+
+{% block scripts %}
+    
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Your performance for the period was: {{player.decodes_completed}}
+    </p>
+
+    <p>
+        Your pay for the period is: {{payoff}} Lira
+    </p>
+
+    {% next_button %}
+
+{% endblock %}

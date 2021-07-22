@@ -1,0 +1,58 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Feedback 
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        The worker's target was {{player.group.final_target}}.
+    </p>
+    <p>
+        The worker's actual performance was {{worker_decodes}}.
+    </p>
+    <p>
+        This was a {{difficulty}} period.
+    </p>
+    <p>
+    Your pay for the period is {{player.payoff}}. {{player.decodes_earnings}} from the decoding task performed by the worker, {{player.trivia_earnings}} from your performance on the trivia questions. 
+    </p>
+    <p>
+        {% if target_reached %}
+            The worker met the target. 
+        {% else %}
+            The worker did not meet the target.
+        {% endif %}
+        As the manager, you can adjust the worker's bonus of {{standard_bonus}} Lira 
+        by any amount you see fit; You will be responsible for paying 10% of the bonus from your own earnings. Would you like to adjust the worker's bonus?
+        <button class="btn btn-primary" onclick="noSubmit()">No</button> 
+        <button class="btn btn-primary" type="button" onclick="document.getElementById('bonus-wrapper').style.display = 'block';">Yes</button>
+        you will pay {{standard_contrib}} Lira [{{manager_bonus_percentage}}%].
+    </p>
+    <div id="bonus-wrapper" style="display:none">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for='bonus'>The worker's current bonus is 200. What would you like to adjust the worker's bonus to?</label>
+                <input id="bonus" class="form-control mx-sm-3" type="number" name="bonus" placeholder="bonus"><button class="btn btn-primary">submit</button>
+            </div>
+        </div>
+    </div>
+    <p>
+        Remember that you will not be paired with the same worker next period.
+    </p>
+    <button id='hidden-submit' style='display: none'>THIS SHOULD NOT BE SHOWING</button>
+
+    <script>
+        let standardBonus = {{standard_bonus}}
+        // when form is submitted with no button
+        function noSubmit() {
+            let bonusInput = $('#bonus')
+            bonusInput.hide()
+            bonusInput.val(standardBonus)
+            $('#hidden-submit').click()
+        }
+    </script>
+
+{% endblock %}

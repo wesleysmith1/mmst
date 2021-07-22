@@ -1,0 +1,83 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Overview
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Please read the instructions carefully. It is important that you understand all the
+        instructions because the amount of money you earn will depend on your understanding of
+        the instructions and your performance in the study. Today’s study will take
+        approximately 15 minutes of your time.
+    </p>
+
+    <p>
+        For this study, we will use an experimental currency called “Lira”. The Lira you earn will
+        be converted into dollars. Every 50 Lira you earn will be converted into $1.
+    </p>
+
+    <p>
+        Note: At no time will any deception be used in this study, all instructions will be
+        faithfully executed in accordance with the review of the Institutional Review Board.
+    </p>
+
+    <h3>Task Instructions</h3>
+
+    <p>
+        In today’s study, you will work on a task known as a "decoding task". In the decoding
+        task, you will decode numbers into letters using the decoding keys in the grid provided on
+        the computer screen, as depicted below. In each period, the key will be different.
+    </p>
+
+    <p>
+        Below you see a random grid with a decoding key assigning the 26 alphabetic characters
+        to two-digit numbers. Your task consists of “decoding” numbers by filling the
+        corresponding alphabetic character from the decoding key into the free space next to the
+        number that has to be decoded.
+    </p>
+
+    <p>
+        Example: 61 would be decoded to D using the decoding key provided below.
+    </p>
+
+    {% include 'global/Key.html' %}
+
+    <p>
+        Answers are not case sensitive. After you type in the letter you decode, please make sure you click the SUBMIT button
+        to submit the answer. <b>If you do not click the SUBMIT button to submit the answer,
+        the answer will not be recorded and will not count toward your performance.</b>
+    </p>
+
+    <p>
+        You will work on the decoding task for five periods and every period will last two
+        minutes.
+    </p>
+
+    <h3>Compensation</h3>
+
+    <p>
+        You will earn 2 Lira for every correct grid you submit in every period. Your total
+        earnings from the study will equal to the sum of your earnings in the five periods.
+    </p>
+
+    <h3>
+        Practice Period
+    </h3>
+
+    <p>
+        After you have completed reading the instructions, you will have 30 seconds to practice
+        the decoding task.
+    </p>
+
+    <p>
+        Note: Your performance in the practice round will NOT be paid, but the practice round
+        provides you a good opportunity to become familiar with the task.
+    </p>
+
+    {% next_button %}
+
+
+{% endblock %}

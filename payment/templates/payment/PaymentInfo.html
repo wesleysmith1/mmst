@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Payment
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        The computer program has randomly chosen period {{player.payment_round}} for compensation.
+    </p>
+    <p>
+        Based on that period, you earned {{performance_lira}} Lira (50 Lira equals $1).  
+    </p>
+    <p>
+        Your total compensation is {{final_payment_usd}}, {{participation_usd | c}} as a participation fee and {{performance_usd}} from your performance.
+    </p>
+
+    {% next_button %}
+
+
+{% endblock %}
+
+    

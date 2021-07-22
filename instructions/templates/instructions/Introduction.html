@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Overview
+{% endblock %}
+
+{% block content %}
+
+    <!-- =============================================================================== -->
+
+    <p>
+        Please read the instructions carefully. It is important that you understand all the
+        instructions because the amount of money you earn will depend on your understanding of
+        the instructions and the decisions you make during the study. Today’s study will take
+        approximately 60 minutes of your time.
+    </p>
+    <p>
+        For this study, we will use an experimental currency called “Lira”. The Lira you earn will
+        be converted into dollars. Every 50 Lira you earn will be converted into $1.
+    </p>
+
+    {% next_button %}
+
+{% endblock %}

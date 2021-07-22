@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Practice Period
+{% endblock %}
+
+<!-- =========================================================================== -->
+
+{% block scripts %}
+    
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Your performance for the period was: {{player.decodes_completed}}
+    </p>
+
+    {% next_button %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Feedback
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        You earned {{performance_lira}} Lira (50 Lira equals $1).  
+    </p>
+    <p>
+        Your total compensation is {{player.final_payment}}, {{participation_usd}} as a participation fee and {{performance_usd}} from your performance.
+    </p>
+
+    {% next_button %}
+
+
+{% endblock %}

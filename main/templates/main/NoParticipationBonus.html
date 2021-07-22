@@ -1,0 +1,27 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Target setting
+{% endblock %}
+
+{% block content %}
+
+    {% if player.role == 'manager' %}
+        <div class="form-group">
+            <label for="target">Please set a target for the number of grids for the worker to correctly submit during the period.</label>
+            <input id="target" class="form-control" type="number" name="final_target">
+        </div>
+    {% else %}
+        ERROR DISPLAYING INFORMATION BECAUSE CUSTOM_ROLE IS INVALID
+    {% endif %}
+
+    {% next_button %}
+
+    <script>
+        setTimeout(() => {  
+            alert('Please provide a target.')
+        }, 60000);  
+    </script>
+
+{% endblock %}

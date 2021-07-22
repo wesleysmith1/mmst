@@ -1,0 +1,111 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    {% if player.role == 'worker' %}
+        Worker Instructions
+    {% else %}
+        Manager Instructions
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <!-- =============================================================================== -->
+
+    <h3>PRODUCTION TASK</h3>
+
+    {% if player.role == 'worker' %}
+
+        <p>
+            You have been randomly assigned to the role of <b>WORKER</b> in today’s session.
+        </p>
+        <p>
+            The production task for today&#39;s study is known as a &quot;decoding task.&quot; Your task is to
+            decode numbers into letters using the decoding keys in the grid provided on the computer
+            screen, as depicted below. In each period, the key will be different.
+        </p>
+        <p>
+            Below you see a random grid with a decoding key assigning the 26 alphabetic characters
+            to two-digit numbers. Your task consists of “decoding” numbers by filling the
+            corresponding alphabetic character from the decoding key into the free space next to the
+            number that has to be decoded.
+        </p>
+        <p>
+            Example: <b>61</b> would be decoded to <b>D</b> using the decoding key provided below.
+        </p>
+
+        {% include 'global/Key.html' %}
+
+        <p>
+            Answers are not case sensitive. After you type in the letter you decode, please make sure you click the SUBMIT button
+            to submit the answer. <b>If you do not click the SUBMIT button to submit the answer,
+            the answer will not be recorded and will not count toward your performance.</b>
+        </p>
+        <p>
+            Across the ten periods, you will experience normal and difficult periods. In a <b>normal
+            period</b>, you will decode one number into one letter in every grid. For example, in one
+            grid, you would get one assigned number, such as 57, which you would decode into L. In
+            a <b>difficult period</b>, you will decode two numbers into two letters in every grid. For
+            example, in one grid, you would get two assigned numbers, such as 36 58, which you
+            would decode into G A. Your performance in each period is calculated as the number
+            of grids you correctly submit. Each period the computer will randomly determine if it is a
+            normal or difficult period, with an 80% likelihood of being a normal period and a 20%
+            likelihood of being a difficult period. <b> The manager will be told if the period was a
+            normal or difficult period at the end of each period.</b>
+        </p>
+        <p>
+            After you have completed reading the instructions, you will have 60 seconds to practice
+            the decoding task under a normal period.
+        </p>
+        <p>
+            Note: Your performance in the practice round will NOT be paid, but the practice round
+            provides you a good opportunity to become familiar with the task.
+        </p>
+
+    {% elif player.role == 'manager' %}
+        
+        <p>
+            You have been randomly assigned to the role of <b>MANAGER</b> in today’s session.
+        </p>
+        <p>
+            The production task for today&#39;s study is known as a &quot;decoding task.&quot; The worker’s task is
+            to decode numbers into letters using the decoding keys in the grid provided on the
+            computer screen, as depicted below. In each period, the key will be different.
+        </p>
+        <p>
+            Below you see a random grid with a decoding key assigning the 26 alphabetic characters
+            to two-digit numbers. The worker’s task consists of “decoding” numbers by filling the
+            corresponding alphabetic character from the decoding key into the free space next to the
+            number that has to be decoded.
+        </p>
+        <p>
+            Example: <b>61</b> would be decoded to <b>D</b> using the decoding key provided below.
+        </p>
+        {% include 'global/Key.html' %}
+        <p>
+            The worker will practice the task, followed by performing the task for ten periods. 
+            Across the ten periods, the worker may experience normal and difficult periods. In a
+            <b>normal period</b>, the worker will decode one number into one letter in every grid. For
+            example, in one grid, the worker would get one assigned number, such as 57, which they
+            would decode into L. In a <b>difficult period</b>, the worker will decode two numbers into
+            two letters in every grid. For example, in one grid, you would get two assigned numbers, 
+            such as 36 58, which you would decode into G A. The worker’s
+            performance in each period is calculated as the number of grids they correctly solve and
+            submit. Their objective is to correctly solve and submit as many grids as possible. Each
+            period the computer will randomly determine if it is a normal or difficult period, with an
+            80% likelihood of being a normal period and a 20% likelihood of being a difficult period.
+            <b>You will be told if the period was a normal or difficult period at the end of each
+            period.</b>
+        </p>
+        <p>
+            While the worker performs the decoding task, you will be answering trivia questions. For
+            each correctly answered trivia question, you will earn 20 Lira. You will have 15 seconds
+            to provide an answer to each trivia question.
+        </p>
+
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

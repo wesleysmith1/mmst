@@ -1,0 +1,33 @@
+<h3 style="text-align: center;">Key</h3>
+<table class="table table-bordered">
+    <tbody>
+
+        <tr>
+            {% for i in key.num_row1 %}
+                <td>{{i}}</td> 
+            {% endfor %}
+        </tr>
+
+        <tr>
+            {% for x in key.letter_row1 %}
+                <td>{{x}}</td> 
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <td></td>
+        </tr>
+
+        <tr>
+            {% for z in key.num_row2 %}
+                <td>{{z}}</td> 
+            {% endfor %}
+        </tr>
+
+        <tr>
+            {% for y in key.letter_row2 %}
+                <td>{{y}}</td> 
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>

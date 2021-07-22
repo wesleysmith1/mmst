@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Final Round Results 
+{% endblock %}
+
+{% block content %}
+
+    {% if player.role == 'worker' %}
+
+        <p>
+            Your pay for the period is {{player.payoff}}. {{player.decodes_earnings}} from task performance and {{player.group.bonus}} from the bonus awarded by the manager.
+        </p>
+        <p>
+            Remember that you will not be paired with the same manager next period.
+        </p>
+
+    {% elif player.role == 'manager' %}
+
+        <p>
+            Your final pay for the period is {{ player.payoff }}. {{player.decodes_earnings}} from the decoding task minus 
+            {{bonus_contrib}} (10% of the bonus payment to the worker), 
+            {{player.trivia_earnings}} from your performance on the trivia questions.
+        </p>
+
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

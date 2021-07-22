@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Feedback 
+{% endblock %}
+
+{% block content %}
+
+        <p>
+            Your target was {{player.group.final_target}}.
+        </p>
+        <p>
+            Your actual performance was {{player.decodes_completed}}.
+        </p>
+        <p>
+            The manager was informed this was a {{difficulty}} period.
+        </p>
+        <p>
+            The manager is determining what your bonus amount will be for the period.
+        </p>
+
+    {% next_button %}
+
+{% endblock %}

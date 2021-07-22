@@ -1,0 +1,27 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    General Instructions
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        In today’s study there will be two roles, WORKER and MANAGER. Workers will be
+        responsible for performing a production task overseen by the manager. The production
+        task will be repeated for ten periods and each period will last for two minutes. A worker
+        will be paired with a manager for a period and these pairings will be rematched before
+        each period, meaning you will not be matched with the same person in back-to-back
+        periods. In each production period, the worker will have a performance target. The details
+        of the production task, target-setting process and compensation will be described for your
+        assigned role on the next screens.
+    </p>
+    <p>
+        Note: At no time will any deception be used in this study, all instructions will be
+        faithfully executed in accordance with the review of the Institutional Review Board.
+    </p>
+
+    {% next_button %}
+
+{% endblock %}

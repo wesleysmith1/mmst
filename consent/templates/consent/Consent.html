@@ -1,0 +1,48 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Please review the following
+{% endblock %}
+
+{% block content %}
+
+    <div id="consent">
+        <p>
+            Please read the instructions carefully. It is important that you understand all the
+            instructions because the amount of money you earn will depend on your understanding of
+            the instructions and the decisions you make during the study. Today’s study will take
+            approximately 60 minutes of your time.
+        </p>
+
+        <p>
+            For this study, we will use an experimental currency called “Lira”. The Lira you earn will
+            be converted into dollars and you will be paid within 48 hours of your completion of the
+            study. Every xx Lira you earn will be converted into $XX.
+        </p>
+
+		<button class="btn btn-primary" type="submit">I agree</button>
+		<button id="notagree" class="btn btn-primary" type="button">I do not agree</button>
+	</div>
+	<div id="notparticpating" style="display: none;">
+		<p>You decided to not participate in the experiment.</p>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+
+		$ ( "#notagree" ).click(function() {
+			let confirmed = confirm("Are you sure you do not want to participate in the experiment?");
+
+			if (confirmed) {
+				// hide content
+				$("#consent").hide()
+				// display not particiating section
+				$("#notparticpating").show()
+			}
+		})
+	</script>
+{%endblock%}
+

@@ -1,0 +1,78 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Feedback 
+{% endblock %}
+
+{% block content %}
+
+    {% if player.role == 'worker' %}
+
+        <p>
+            Your target was {{player.group.final_target}}.
+        </p>
+        <p>
+            Your actual performance was {{player.decodes_completed}}.
+        </p>
+        <p>
+            The manager was informed this was a {{difficulty}} period.
+        </p>
+        <p>
+            The manager is determining what your bonus amount will be for the period Please Wait
+        </p>
+        <!-- <p>
+            Your pay for the period is {{player.payoff}}. {{player.decodes_earnings}} from task performance and {{player.group.bonus}} from the bonus.
+        </p>
+        <p>
+            Remember that you will not be paired with the same manager next period.
+        </p> -->
+
+    {% elif player.role == 'manager' %}
+
+        <p>
+            The worker's target was {{player.group.final_target}}.
+        </p>
+        <p>
+            The worker's actual performance was {{worker_decodes}}.
+        </p>
+        <p>
+            This was a {{difficulty}} period.
+        </p>
+        <p>
+        Your pay for the period is {{player.payoff}}. {{player.decodes_earnings}} from the decoding task performed by the worker, {{player.trivia_earnings}} from your performance on the trivia questions. 
+        </p>
+
+        <p>
+            {% if target_reached %}
+                The worker met the target. 
+            {% else %}
+                The worker did not meet the target.
+            {% endif %}
+
+            As the manager, you can adjust the worker's bonus of {{standard_bonus}} Lira by any amount you see fit; 
+            You will be responsible for paying {{manager_bonus_percentage}}% of the bonus from your own earnings. 
+            Would you like to adjust the worker's bonus?
+            <button type="button">Yes</button>
+            you will pay {{standard_contrib}} Lira [{{manager_bonus_percentage}}%].
+        </p>
+
+        <p>
+            The worker met/did not meet the target. As the manager, you can adjust the worker's bonus of {{standard_bonus}} Lira 
+            by any amount you see fit; You will be responsible for paying 10% of the bonus from your own earnings. Would you like to adjust the worker's bonus?
+            <button type="button">Yes</button>
+            you will pay {{standard_contrib}} Lira [{{manager_bonus_percentage}}%].
+        </p>
+        <!-- if yes -->
+        <p>
+            The worker's current bonus is 200. What would you like to adjust the worker's bonus to?
+        </p>
+        <p>
+            Remember that you will not be paired with the same worker next period.
+        </p>
+
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

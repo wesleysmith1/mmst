@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Target setting
+{% endblock %}
+
+{% block content %}
+
+    {% if player.role == 'worker' %}
+        <!-- <input type="number" name="final_target"> -->
+        <div class="form-group">
+            <label for="target">Please provide to the manager a target for your performance for this period</label>
+            <input id="target" class="form-control" type="number" name="final_target">
+        </div>
+        <p>
+            This performance target represents the number of grids you must correctly submit to earn the bonus.
+        </p>
+    {% else %}
+        ERROR DISPLAYING INFORMATION BECAUSE CUSTOM_ROLE IS INVALID
+    {% endif %}
+
+    {% next_button %}
+
+    <script>
+        setTimeout(() => {  
+            alert('Please provide a target.')
+        }, 60000);  
+    </script>
+
+{% endblock %}

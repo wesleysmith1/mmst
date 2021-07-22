@@ -1,0 +1,91 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    {% if player.role == 'worker' %}
+        Production 
+    {% elif player.role == 'manager' %}
+        Trivia
+    {% endif %}
+{% endblock %}
+
+<!-- =========================================================================== -->
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="{% static 'global/js/trivia.js' %}"></script>
+    <script src="{% static 'global/js/decode.js' %}"></script>
+
+    <script>
+
+        {% if difficult %}
+            let difficult = true
+        {% else %}
+            let difficult = false
+        {% endif %}
+
+        function liveRecv(data) {
+            app.gameUpdate(data)
+        }
+
+        let app = new Vue({
+            el: '#app',
+            components: {
+                'trivia-component': triviaComponent,
+                'decode-component': decodeComponent,
+            },
+            data: {
+                role: '{{player.role}}',
+                numbers: {{key.numbers}},
+                difficult: difficult,
+                question: {{question | json}},
+
+            },
+            mounted: function() {
+                this.$refs.wrapper.style.display = 'block'
+
+            },
+            methods: {
+                gameUpdate: function(data) {
+                    if (data.question) {
+                        if (data.question.question) {
+                            this.question = data.question
+                        }
+                    }
+                },
+            },
+            computed: {
+            },
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    {% if player.role == 'worker' %}
+        {% include 'global/Key.html' %}
+    {% endif %}
+
+    <div id="app">
+
+        <div ref="wrapper" style="display: none">
+            <div v-if="role == 'manager'">
+                <trivia-component :question="question"></trivia-component>
+            </div>
+            <div v-if="role == 'worker'">
+                <decode-component 
+                    :difficult="difficult"
+                    :numbers="numbers"
+                ></decode-component>
+            </div>
+        </div>
+
+
+    </div>  
+
+    <button id='submitBtn' class="btn btn-primary" style="display: none;">
+        Submit
+    </button>
+
+
+{% endblock %}

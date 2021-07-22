@@ -1,0 +1,85 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Target Setting and Compensation
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+    {% if player.role == 'worker' %}
+        
+        <p>
+            You will receive {{worker_earnings}} Lira for every grid you correctly submit. The manager will receive {{manager_earnings}}
+            Lira for every grid you correctly submit. You are also potentially eligible for a bonus
+            based on your performance.
+        </p>
+
+        <!-- ========================= -->
+
+        <p>
+            Before each production period begins, the manager will be responsible for setting a
+            target for your performance on the production task for that period. If you achieve
+            your target in the period, you will be eligible to receive the standard bonus of {{standard_bonus}}
+            Lira. <B>The manager will have discretion over the actual amount of your bonus.</B> {{manager_bonus_contrib}}%
+            of any awarded bonus will be paid from the earnings of the manager.
+        </p>
+
+        <!-- ========================= -->
+
+        <p>
+            The manager will neither practice nor perform the production task at any point in today’s
+            study. However, the manager will be told the range of performance on the decoding task
+            in a normal period based on a pilot study of {{pilot_participants}} participants.
+        </p>
+
+        <p>
+            In addition to the {{manager_earnings}} Lira per correct grid submitted, the manager receives compensation
+            from a task only they will be performing.
+        </p>
+
+        <p>
+            Note: Only one of the ten production periods will be used to determine your pay, so you
+            should treat every period as if it is the period your pay will be based upon. The computer
+            will randomly select one period to calculate your payment at the end of the study.
+        </p>
+
+
+    {% elif player.role == 'manager' %}
+                
+        <p>
+            You will receive {{manager_trivia_earnings}} Lira for every correctly answered trivia question. You will also
+            receive {{manager_earnings}} Lira for every correct grid submitted by the worker. The worker will earn {{worker_earnings}}
+            Lira for every correct grid. The worker is also potentially eligible for a bonus based on
+            their performance.
+        </p>
+
+        <!-- ========================= -->
+
+        <p>
+            Before each production period begins, you will be responsible for setting a target for
+            the worker’s performance on the production task for that period. If the worker
+            achieves the target in the period, he or she will be eligible to receive the standard
+            bonus of {{standard_bonus}} Lira. <b>You will have discretion over the actual amount of their bonus.</b>
+            You will pay {{manager_bonus_contrib}}% of any awarded bonus to the worker from your own earnings.
+        </p>
+
+        <!-- ========================= -->
+
+        <p>
+            Based on prior experience, {{pilot_percentage_one}}% of workers can do  {{pilot_grids_one}} grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a
+            normal period based on a pilot study of {{pilot_participants}} participants.
+        </p>
+
+        <p>
+            Note: Only one of the ten production periods will be used to determine your pay, so you
+            should treat every period as if it is the period your pay will be based upon. The computer
+            will randomly select one period to calculate your payment at the end of the study.
+        </p>
+
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Period {{player.round_number}}
+{% endblock %}
+
+<!-- =========================================================================== -->
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="{% static 'global/js/decode.js' %}"></script>
+
+    <script>
+
+        function liveRecv(data) {
+            app.gameUpdate(data)
+        }
+
+        let app = new Vue({
+            el: '#app',
+            components: {
+                'decode-component': decodeComponent,
+            },
+            data: {
+                role: 'worker',
+                numbers: {{key.numbers}},
+
+            },
+            mounted: function() {
+                this.$refs.wrapper.style.display = 'block'
+
+            },
+            methods: {
+                gameUpdate: function(data) {
+                },
+            },
+            computed: {
+            },
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    {% include 'global/Key.html' %}
+
+    <div id="app">
+
+        <div ref="wrapper" style="display: none">
+            <div v-if="role == 'worker'">
+                <decode-component 
+                    :difficult=false
+                    :numbers="numbers"
+                ></decode-component>
+            </div>
+        </div>
+
+    </div>  
+
+    <button id='submitBtn' class="btn btn-primary" style="display: none;">
+        Submit
+    </button>
+
+
+{% endblock %}

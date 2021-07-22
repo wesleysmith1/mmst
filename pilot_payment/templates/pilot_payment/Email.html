@@ -1,0 +1,16 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    You have reached the end of the survey.
+{% endblock %}
+
+{% block content %}
+
+    <label for="email" class="col-form-label">Please enter the email address we should use to send you payment.</label>
+    <input id="email" class="form-control" type="email" name="email">
+
+    {% next_button %}
+
+
+{% endblock %}

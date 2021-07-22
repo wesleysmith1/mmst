@@ -1,0 +1,196 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Bonus
+{% endblock %}
+
+<!-- =========================================================================== -->
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="{% static 'global/js/bonusInput.js' %}"></script>
+
+    <script>
+
+        function liveRecv(data) {
+            app.gameUpdate(data)
+        }
+
+        let app = new Vue({
+            el: '#app',
+            components: {
+                'bonus-input-component': bonusInputComponent,
+            },
+            data: {
+                role: '{{player.role}}',
+                targetRound: {{target_round}},
+                finalTarget: {{final_target}},
+                proposedTarget: {{proposed_target}},
+
+            },
+            mounted: function() {
+                this.$refs.wrapper.style.display = 'block'
+            },
+            methods: {
+                accept: function() {
+                    liveSend({"accept": true})
+                    this.advance()
+                },
+                advance: function() {
+                    this.$refs.submitBtn.click()
+                },
+                cancelTimer: function() {
+                    console.log('timer canceled')
+                },
+                workerAdvance: function() {
+                    if (this.role === 'worker' & this.targetRound === 8) {
+                        alert('WORKER BEING ADVANCED')
+                        this.advance()
+                    }
+                },
+                gameUpdate: function(data) {
+                    this.targetRound = data.round
+
+                    this.workerAdvance()
+
+                    if (data.accepted) {
+                        this.advance()
+                    } else {
+                        this.proposedTarget = data.proposal
+                    }
+                },
+                submitProposal: function(value) {
+                    // get the round
+                    liveSend({'proposal': value})
+                    if (this.targetRound == 8) {
+                        this.advance()
+                    }
+                },
+                noAgreementMet: function(value) {
+                    // the worker does not accept in final round
+                    if (this.role == 'worker') {
+                        liveSend({'worker_decline': true})
+                        this.advance()
+                    } else {
+                        console.error('NoAgreementMet: manager should not call this method')
+                    }
+
+                }
+            },
+            computed: {
+            },
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <div id="app">
+        {% verbatim %}
+
+            <div ref="wrapper" style="display: none">
+
+                <div v-if="role === 'worker'">
+                    <div v-if="targetRound == 1">
+                        You and the manager need to set a target for your performance for this period. This
+                        performance target represents the number of grids you must correctly submit to earn the
+                        bonus. You will have 4 rounds to negotiate the target. If a target is not agreed upon after
+                        4 rounds, then the manager will set the final target. What would you like to propose as
+                        the target to start the negotiation
+                        <bonus-input-component 
+                            @propose="submitProposal"
+                            label="What would you like to propose as the target to start the negotiation?"
+                        ></bonus-input-component>
+                    </div>
+
+                    <div v-if="targetRound == 2 | targetRound == 4 | targetRound == 6">
+                        Waiting for manager...
+                    </div>
+
+                    <div v-if="targetRound == 3 | targetRound == 5">
+                        <div>
+                            The manager did not accept the target and has suggested a target of {{proposedTarget}}. 
+                            Do you accept this target? <button class="btn btn-primary" type="button" @click="accept">Accept</button> 
+                        </div>
+                        <div>
+                            <bonus-input-component 
+                                @propose="submitProposal"
+                                label="What target would you like to propose?"
+                            ></bonus-input-component>
+                        </div>
+                    </div>
+
+                    <div v-if="targetRound == 7">
+                        <div>
+                            The manager did not accept the target and has suggested a target of {{proposedTarget}}. 
+                            Do you accept this target? 
+                            <button class="btn btn-primary" type="button" @click="accept">Accept</button> 
+                            <button class="btn btn-primary" type="button" @click="noAgreementMet">No</button>
+                        </div>
+                    </div>
+
+                    <!-- <div v-if="targetRound == 8">
+                        N [if no agreement after 4 rounds of negotiation] You have not reached an agreed upon
+                        target with the manager. The manager has set a target of {{proposedTarget}} for the period.
+                    </div> -->
+
+                    <!-- ===================================================================================== -->
+
+                    <!-- <div v-if="targetRound == 10">
+                        N Your performance target in period 1 is: {{finalTarget}}
+                    </div> -->
+                </div>
+                <div v-else>
+                    <h3>You are the manager</h3>
+
+                    <div v-if="targetRound == 1">
+                        You and the worker need to set a target for the number of grids to correctly submit
+                        during the period. You will have 4 rounds to negotiate the target. If a target is not agreed
+                        upon after 4 rounds, then you as the manager will set the final target. You will receive a
+                        target from the worker to start the negotiation. Please wait.
+                    </div>
+
+                    <div v-if="targetRound == 2 | targetRound == 4 | targetRound == 6">
+                        <div>
+                            The worker proposed a target of {{proposedTarget}}. Do you accept this target? <button class="btn btn-primary" type="button" @click="accept">Accept</button>
+                        </div>
+                        <br>
+                        <div>
+                            <bonus-input-component 
+                                @propose="submitProposal"
+                                label="If not, what target would you like to propose? "
+                            ></bonus-input-component>
+                        </div>
+                    </div>
+
+                    <div v-if="targetRound == 3 | targetRound == 5 | targetRound == 7">
+                        Waiting for worker...
+                    </div>
+
+                    <!-- ======================================================================================= -->
+
+                    <div v-if="targetRound == 8">
+                         You have not reached an agreed upon target with the worker. 
+                        <bonus-input-component 
+                            @propose="submitProposal"
+                            label="You will set the final target. What target would you like to set for the worker for the period?."
+                        ></bonus-input-component>                    
+                    </div>
+
+                    <!-- <div v-if="targetRound == 10">N The performance target for the worker in period 1 is: {{ finalTarget }}.</div> -->
+
+                </div>
+            </div>
+
+            <button ref="submitBtn" style="display: none">Hidden submit</button>
+
+        {% endverbatim %}
+    </div>  
+
+    <button id='submitBtn' class="btn btn-primary" style="display: none;">
+        Submit
+    </button>
+
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Survey
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Please answer each question as accurately and honestly as you can.
+        Remember, all answers are anonymous and cannot be traced back to you in any way.
+        None of your responses to these demographic questions will have any effect on any part
+        of the experiment.
+    </p>
+
+    <!-- ================Rank Order================ -->
+
+    Please rank the following factors based on their importance in how you set the target, from the most important to the least important.
+    {% if discretion %}
+    <hr>
+    <div style="display: flex; justify-content: space-between;">
+        <div>I wanted to set a fair target for myself.</div>
+        <div>{{ form.wro1 }}</div>
+    </div>
+    {% endif%}
+    <hr>
+    <div style="display: flex; justify-content: space-between;">
+        <div>I wanted to motivate myself with the target.</div>
+        <div>{{ form.wro2 }}</div>
+    </div>
+    <hr>
+    <div style="display: flex; justify-content: space-between;">
+        <div>I set the target at the level that I think would maximize my pay</div>
+        <div>{{ form.wro3 }}</div>
+    </div>
+    <hr>
+    <div style="display: flex; justify-content: space-between;">
+        {% if discretion %}
+            {% if bonus_setting == 'negotiation' %}
+                <div>I considered the manager's discretion to adjust my bonus at the end of each each period when setting the target at the beginning of the period.</div>
+            {% elif bonus_setting == 'no_participation' %}
+                <div>I considered the manager's discretion to adjust my bonus at the end of each each period when setting the target at the beginning of the period.</div>
+            {% elif bonus_setting == 'participation' %}
+                <div>I considered the manager's discretion to adjust my bonus at the end of each each period when setting the target at the beginning of the period.</div>
+            {% endif %}
+            <div>{{ form.wro4 }}</div>
+        {% endif %}
+        
+    </div>
+
+    <!-- ========================================== -->
+
+    <!-- ==================scale question======================== -->
+
+    <p style="margin-left: 50px;">
+        (1) Strongly disagree (4) Neither disagree nor agree (7) Strongly agree
+    </p>
+
+    <hr>
+    <div class="container" style="alignment:center">
+        <div class="row" style="text-align: center; font-size: 12px;">
+            <div class="col-sm-5">
+            </div>
+            <div class="col-sm-1">
+                Strongly disagree
+            </div>
+            <div class="col-sm-1">
+                
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+                Neither disagree nor agree
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+                Strongly agree
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s1.label }}
+            </div>
+            {% for choice in form.s1 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                The way that payoffs were determined for the manager was fair.
+            </div>
+            {% for choice in form.s2 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s3.label }}
+            </div>
+            {% for choice in form.s3 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s4.label }}
+            </div>
+            {% for choice in form.s4 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s5.label }}
+            </div>
+            {% for choice in form.s5 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s6.label }}
+            </div>
+            {% for choice in form.s6 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s7.label }}
+            </div>
+            {% for choice in form.s7 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s8.label }}
+            </div>
+            {% for choice in form.s8 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.s9.label }}
+            </div>
+            {% for choice in form.s9 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+    </div>
+
+    <!-- ========================================== -->
+
+    {% next_button %}
+
+{% endblock %}
