@@ -25,10 +25,12 @@ class WorkerSurvey1(Page):
         ]
     if not config.discretion:
         form_fields.remove('wro4')
+        form_fields.remove('wro3')
+        form_fields.remove('wro2')
         form_fields.remove('wro1')
 
     def is_displayed(self):
-        return self.player.role == 'worker'
+        return self.player.role == 'worker' and not config.discretion
 
     def vars_for_template(self):
         return dict(

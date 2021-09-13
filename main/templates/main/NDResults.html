@@ -33,18 +33,23 @@
         <p>
             The worker's actual performance was {{worker_decodes}}.
         </p>
+
+        {% if target_reached %}
+            <p>
+                So the worker met the target and will receive a bonus.
+            </p>
+        {% else %}
+            <p>
+                So the worker did not meet the target and will not receive a bonus.
+            </p>
+        {% endif %}
+
         <p>
             This was a {{difficulty}} period.
         </p>
+
         <p>
-           Your pay for the period is {{payoff_lira}} Lira. {{player.decodes_earnings}} from the decoding task performed by the worker, {{player.trivia_earnings}} from your performance on the trivia questions. 
-        </p>
-        <p>
-            {% if target_reached %}
-                The worker met the target and will receive the standard bonus of {{standard_bonus}} Lira; you will pay {{standard_contrib}} Lira [{{manager_bonus_percentage}}%].
-            {% else %}
-                The worker did not meet the target and will not receive a bonus.
-            {% endif %}
+           Your pay for the period is {{payoff_lira}} Lira. You earned {{player.decodes_earnings}} from the decoding task performed by the worker and {{player.trivia_earnings}} from your performance on the trivia questions. 
         </p>
         <p>
             Remember that you will not be paired with the same worker next period.

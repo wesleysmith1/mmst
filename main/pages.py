@@ -7,7 +7,14 @@ import config_constants, config
 from helpers import get_role, get_round_key, formatted_key
 
 class DIntroduction(Page):
-    pass
+    def vars_for_template(self):
+        return dict(
+            pilot_percentage_one=config.pilot_percentage_one,
+            pilot_grids_one=config.pilot_grids_one,
+            pilot_percentage_two=config.pilot_percentage_two,
+            pilot_grids_two=config.pilot_grids_two,
+            pilot_participants=config.pilot_participants,
+        )
 
 
 class NDIntroduction(Page):
@@ -60,8 +67,16 @@ class ParticipationBonus(Page):
 class ParticipationWait(WaitPage):
     body_text = "Waiting for the other participant."
 
+# only the worker should see this
 class NoParticipationWait(WaitPage):
-    body_text = "The manager is currently setting a target for your performance for this period. This performance target represents the number of grids you must correctly submit to earn the bonus. Please wait."
+
+    def vars_for_template(self):
+        if self.player.role == Constants.worker_role:
+            body_text = "The manager is currently setting a target for your performance for this period. This performance target represents the number of grids you must correctly submit to earn the bonus. Please wait."
+        else:
+            body_text = "Waiting for the other participant."
+
+        return dict(body_text=body_text)
 
 class NegotiationWait(WaitPage):
     body_text = "Target not agreed upon. Please wait while manager sets the target."
@@ -128,7 +143,7 @@ class NDResults(Page):
         return vars
 
 class DWorkerResults1(Page):
-    timeout_seconds = 60
+    # timeout_seconds = 60
 
     def is_displayed(self):
         return self.player.role == Constants.worker_role
@@ -141,6 +156,7 @@ class DWorkerResults1(Page):
             standard_bonus=self.group.bonus,
             standard_contrib=Constants.manager_contrib,
             manager_bonus_percentage=int(config.manager_bonus_percentage * 100),
+            target_reached=self.group.target_reached(self.player),
         )
 
         if self.player.is_manager():
@@ -164,6 +180,7 @@ class DManagerResults1(Page):
             standard_bonus=Constants.worker_bonus,
             standard_contrib=Constants.manager_contrib,
             manager_bonus_percentage=int(config.manager_bonus_percentage * 100),
+            target_reached=self.group.target_reached(self.player),
         )
 
         if self.player.is_manager():

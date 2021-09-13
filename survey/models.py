@@ -33,11 +33,14 @@ class Group(BaseGroup):
 scale_options = [1,2,3,4,5,6,7]
 worker_rank_order = [1,2,3,4]
 manager_rank_order = [1,2,3,4]
+
 if not config.discretion:
     manager_rank_order.remove(4)
-    worker_rank_order.remove(4)
+
+    # there was a change. no rank order questions for discretion condition
+    # worker_rank_order.remove(4)
     # Worker does not answer ro1
-    worker_rank_order.remove(3)
+    # worker_rank_order.remove(3)
 
 class Player(BasePlayer):
 
@@ -111,22 +114,23 @@ class Player(BasePlayer):
 
     # worker only
     # rank order
-    wro1 = models.IntegerField(
-        choices=worker_rank_order,
-        label="Fairness"
-    )
-    wro2 = models.IntegerField(
-        choices=worker_rank_order,
-        label="Motivation",
-    )
-    wro3 = models.IntegerField(
-        choices=worker_rank_order,
-        label="pay"
-    )
+
     # discretion only
     if config.discretion:
+        wro1 = models.IntegerField(
+            choices=worker_rank_order,
+            label="Fairness"
+        )
+        wro2 = models.IntegerField(
+            choices=worker_rank_order,
+            label="Motivation",
+        )
+        wro3 = models.IntegerField(
+            choices=worker_rank_order,
+            label="pay"
+        )
         wro4 = models.IntegerField(
-            choices=work_rank_order,
+            choices=worker_rank_order,
             label="Discretion"
         )
     #==============================================================

@@ -7,34 +7,45 @@
 
 {% block content %}
 
-    <p>
-        Please answer each question as accurately and honestly as you can.
-        Remember, all answers are anonymous and cannot be traced back to you in any way.
-        None of your responses to these demographic questions will have any effect on any part
-        of the experiment.
-    </p>
-
-    <!-- ================Rank Order================ -->
-
-    Please rank the following factors based on their importance in how you set the target, from the most important to the least important.
     {% if discretion %}
-    <hr>
-    <div style="display: flex; justify-content: space-between;">
-        <div>I wanted to set a fair target for myself.</div>
-        <div>{{ form.wro1 }}</div>
-    </div>
+        <p>
+            Please answer each question as accurately and honestly as you can.
+            Remember, all answers are anonymous and cannot be traced back to you in any way.
+            None of your responses to these demographic questions will have any effect on any part
+            of the experiment.
+        </p>
+
+        <!-- ================Rank Order================ -->
+
+        Please rank the following factors based on their importance in how you set the target, from the most important to the least important.
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div>I wanted to set a fair target for myself.</div>
+            <div>{{ form.wro1 }}</div>
+        </div>
+
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div>I wanted to motivate myself with the target.</div>
+            <div>{{ form.wro2 }}</div>
+        </div>
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div>I set the target at the level that I think would maximize my pay</div>
+            <div>{{ form.wro3 }}</div>
+        </div>
+        <hr>
+        {% if bonus_setting == 'negotiation' %}
+            <div>I considered the manager's discretion to adjust my bonus at the end of each each period when setting the target at the beginning of the period.</div>
+        {% elif bonus_setting == 'no_participation' %}
+            <div>I considered the manager's discretion to adjust my bonus at the end of each each period when setting the target at the beginning of the period.</div>
+        {% elif bonus_setting == 'participation' %}
+            <div>I considered the manager's discretion to adjust my bonus at the end of each each period when setting the target at the beginning of the period.</div>
+        {% endif %}
+        <div>{{ form.wro4 }}</div>
+        
     {% endif%}
-    <hr>
-    <div style="display: flex; justify-content: space-between;">
-        <div>I wanted to motivate myself with the target.</div>
-        <div>{{ form.wro2 }}</div>
-    </div>
-    <hr>
-    <div style="display: flex; justify-content: space-between;">
-        <div>I set the target at the level that I think would maximize my pay</div>
-        <div>{{ form.wro3 }}</div>
-    </div>
-    <hr>
+    
     <div style="display: flex; justify-content: space-between;">
         {% if discretion %}
             {% if bonus_setting == 'negotiation' %}
