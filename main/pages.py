@@ -165,7 +165,6 @@ class DWorkerResults1(Page):
         return vars
 
 class DManagerResults1(Page):
-    timeout_seconds = 60
     form_model = 'group'
     form_fields = ['bonus']
 
@@ -188,9 +187,19 @@ class DManagerResults1(Page):
 
         return vars
 
+def discretion_payoff(group):
+    players = group.get_players()
+    for player in players:
+        # calculate payoff
+        player.apply_discretion()
+
+# apply bonus function should only do one thing first of all
+# chack bonuses when others are checked and set the default value then... do not add bonus to to blanace i dont think
+# then make a different functino that upates the default bonuses if needed
+
 class DiscretionWait(WaitPage):
     """This syncs group after the manager uses their discretion for worker bonus"""
-    pass
+    after_all_players_arrive = discretion_payoff
 
 class DResults2(Page):
     def vars_for_template(self):

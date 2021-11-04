@@ -10,7 +10,7 @@
     {% if player.role == 'worker' %}
 
         <p>
-            Your pay for the period is {{player.payoff}}. {{player.decodes_earnings}} from task performance and {{player.group.bonus}} from the bonus awarded by the manager.
+            Your pay for the period is {{player.payoff_lira}}. {{player.decodes_earnings}} from task performance and {{player.group.bonus}} from the bonus awarded by the manager.
         </p>
         <p>
             Remember that you will not be paired with the same manager next period.
@@ -19,7 +19,7 @@
     {% elif player.role == 'manager' %}
 
         <p>
-            Your final pay for the period is {{ player.payoff }}. {{player.decodes_earnings}} from the decoding task minus 
+            Your final pay for the period is {{ player.payoff_lira }}. {{player.decodes_earnings}} from the decoding task minus 
             {{bonus_contrib}} (10% of the bonus payment to the worker), 
             {{player.trivia_earnings}} from your performance on the trivia questions.
         </p>

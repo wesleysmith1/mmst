@@ -164,22 +164,29 @@ class Player(BasePlayer):
             self.decodes_earnings = self.decodes_completed * Constants.worker_earnings
             self.payoff_lira = self.decodes_earnings
         
-        self.apply_bonus()
+        if not config.discretion:
+            # was target reached?
+            if not self.group.target_reached(): 
+                self.group.bonus = 0 
 
-        
+            self.apply_bonus()
+
         if self.participant.vars['payment_round'] == self.round_number:
             self.participant.vars['payoff'] = self.payoff_lira
 
     def apply_bonus(self):
-        if self.group.target_reached(self):
-            """Manager pays part of bonus if target reached"""
+        """Manager pays part of bonus if target reached"""
+        if self.role == Constants.manager_role:
+            self.payoff_lira -= self.group.bonus * Constants.manager_contrib_percentage
+        elif self.role == Constants.worker_role:
+            self.payoff_lira += self.group.bonus
 
-            if self.role == Constants.manager_role:
-                self.payoff_lira -= self.group.bonus * Constants.manager_contrib_percentage
-            elif self.role == Constants.worker_role:
-                self.payoff_lira += self.group.bonus
-        else:
-            self.group.bonus = 0
+    def apply_discretion(self):
+        """ Add bonus as decided my manager"""
+        if self.is_manager():
+            self.payoff_lira -= self.group.bonus * Constants.manager_contrib_percentage
+        elif self.is_worker():
+            self.payoff_lira += self.group.bonus
 
     def is_manager(self):
         return self.role == Constants.manager_role

@@ -11,7 +11,7 @@ bonus_setting = config_constants.NO_PARTICIPATION
 # bonus_setting = config_constants.PARTICIPATION
 
 # can manager update bonus after round?
-discretion = False
+discretion = True
 
 lira_per_dollar = 50    
 

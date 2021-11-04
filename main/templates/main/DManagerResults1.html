@@ -17,7 +17,7 @@
         This was a {{difficulty}} period.
     </p>
     <p>
-    Your pay for the period is {{player.payoff}}. {{player.decodes_earnings}} from the decoding task performed by the worker, {{player.trivia_earnings}} from your performance on the trivia questions. 
+    Your pay for the period is {{player.payoff_lira}}. {{player.decodes_earnings}} from the decoding task performed by the worker, {{player.trivia_earnings}} from your performance on the trivia questions. 
     </p>
     <p>
         {% if target_reached %}
@@ -31,14 +31,13 @@
         <button class="btn btn-primary" type="button" onclick="document.getElementById('bonus-wrapper').style.display = 'block';">Yes</button>
         you will pay {{standard_contrib}} Lira [{{manager_bonus_percentage}}%].
     </p>
-    <div id="bonus-wrapper" style="display:none">
-        <div class="form-inline">
-            <div class="form-group">
-                <label for='bonus'>The worker's current bonus is 200. What would you like to adjust the worker's bonus to?</label>
-                <input id="bonus" class="form-control mx-sm-3" type="number" name="bonus" placeholder="bonus"><button class="btn btn-primary">submit</button>
-            </div>
-        </div>
+
+    <div style="display: none" id="bonus-wrapper">
+        <label for='bonus'>The worker's current bonus is 200. What would you like to adjust the worker's bonus to?</label>
+        <input id="bonus" style="display: inline;" class="form-control" type="number" name="bonus" placeholder="bonus">
+        <button class="btn btn-primary">submit</button>
     </div>
+
     <p>
         Remember that you will not be paired with the same worker next period.
     </p>
