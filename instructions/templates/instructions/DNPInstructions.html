@@ -9,7 +9,8 @@
     {% if player.role == 'worker' %}
         
         <p>
-            You will receive {{worker_earnings}} Lira for every grid you correctly submit. The manager will receive {{manager_earnings}}
+            In every period, you will earn a salary of {{worker_salary}} and {{worker_earnings}} Lira 
+            for every grid you correctly submit. The manager will receive {{manager_earnings}}
             Lira for every grid you correctly submit. You are also potentially eligible for a bonus
             based on your performance.
         </p>
@@ -18,7 +19,7 @@
 
         <p>
             Before each production period begins, the manager will be responsible for setting a
-            target for your performance on the production task for that period. If you achieve
+            target for your performance on the decoding task for that period. If you achieve
             your target in the period, you will be eligible to receive the standard bonus of {{standard_bonus}}
             Lira. <B>The manager will have discretion over the actual amount of your bonus.</B> {{manager_bonus_contrib}}%
             of any awarded bonus will be paid from the earnings of the manager.
@@ -27,9 +28,9 @@
         <!-- ========================= -->
 
         <p>
-            The manager will neither practice nor perform the production task at any point in today’s
+            The manager will neither practice nor perform the decoding task at any point in today’s
             study. However, the manager will be told the range of performance on the decoding task
-            in a normal period based on a pilot study of {{pilot_participants}} participants.
+            in a <b>normal period</b> based on a pilot study of {{pilot_participants}} participants.
         </p>
 
         <p>
@@ -47,9 +48,9 @@
     {% elif player.role == 'manager' %}
                 
         <p>
-            You will receive {{manager_trivia_earnings}} Lira for every correctly answered trivia question. You will also
+            In every period, you will earn a salary of {{manager_salary}} Lira and {{manager_trivia_earnings}} Lira for every correctly answered trivia question. You will also
             receive {{manager_earnings}} Lira for every correct grid submitted by the worker. The worker will earn {{worker_earnings}}
-            Lira for every correct grid. The worker is also potentially eligible for a bonus based on
+            Lira for every correct grid submitted. The worker is also potentially eligible for a bonus based on
             their performance.
         </p>
 
@@ -57,7 +58,7 @@
 
         <p>
             Before each production period begins, you will be responsible for setting a target for
-            the worker’s performance on the production task for that period. If the worker
+            the worker’s performance on the decoding task for that period. If the worker
             achieves the target in the period, he or she will be eligible to receive the standard
             bonus of {{standard_bonus}} Lira. <b>You will have discretion over the actual amount of their bonus.</b>
             You will pay {{manager_bonus_contrib}}% of any awarded bonus to the worker from your own earnings.
@@ -66,10 +67,10 @@
         <!-- ========================= -->
 
         <p>
-            Based on prior experience, {{pilot_percentage_one}}% of workers can do  {{pilot_grids_one}} grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a
-            normal period based on a pilot study of {{pilot_participants}} participants.
+            Based on a pilot study of {{pilot_participants}} participants, {{pilot_percentage_one}}% of workers can do {{pilot_grids_one}} 
+            grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a <b>normal period</b>.
         </p>
-
+        
         <p>
             Note: Only one of the ten production periods will be used to determine your pay, so you
             should treat every period as if it is the period your pay will be based upon. The computer

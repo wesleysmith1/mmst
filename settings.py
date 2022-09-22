@@ -1,79 +1,248 @@
 from os import environ
 
+import config_constants
 
 SESSION_CONFIGS = [
     dict(
-        name='main_experiment',
-        display_name='full experiment',
+        name='discretion_negotiation',
+        display_name='Discretion & Negotiation',
         num_demo_participants=2,
         app_sequence=['instructions', 'practice', 'main', 'survey', 'payment'],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.NEGOTIATION,
+        ),
     ),
     dict(
-        name='consent',
-        display_name='Consent',
-        num_demo_participants=1,
-        app_sequence=['consent',],
-    ),
-    dict(
-        name='survey',
-        display_name='survey',
+        name='discretion_participation',
+        display_name='Discretion - Participation',
         num_demo_participants=2,
-        app_sequence=['survey']
+        app_sequence=['instructions', 'practice', 'main', 'survey', 'payment'],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.PARTICIPATION,
+        ),
     ),
     dict(
-        name='instructions',
-        display_name='instructions',
+        name='discretion_no_participation',
+        display_name='Discretion - No Participation',
         num_demo_participants=2,
-        app_sequence=['instructions',]
+        app_sequence=['instructions', 'practice', 'main', 'survey', 'payment'],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.NO_PARTICIPATION,
+        ),
     ),
     dict(
-        name='practice',
-        display_name='practice',
+        name='no_discretion_no_participation',
+        display_name='No Discretion - No Participation',
         num_demo_participants=2,
-        app_sequence=['practice'],
+        app_sequence=['instructions', 'practice', 'main', 'survey', 'payment'],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.NO_PARTICIPATION,
+        ),
     ),
     dict(
-        name='main',
-        display_name='game',
+        name='no_discretion_participation',
+        display_name='No Discretion - participation',
         num_demo_participants=2,
-        app_sequence=['main'],
+        app_sequence=['instructions', 'practice', 'main', 'survey', 'payment'],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.PARTICIPATION,
+        ),
     ),
     dict(
-        name='payment',
-        display_name='payment',
-        num_demo_participants=1,
-        app_sequence=['payment']
+        name='no_discretion_negotiation',
+        display_name='No Discretion - Negotiation',
+        num_demo_participants=2,
+        app_sequence=['instructions', 'practice', 'main', 'survey', 'payment'],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.NEGOTIATION,
+        ),
     ),
+    # ========================surveys with treatment=================================
+    dict(
+        name='survey_discretion_negotiation',
+        display_name='survey (discretion-negotiation)',
+        num_demo_participants=2,
+        app_sequence=['survey'],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.NEGOTIATION,
+        ),
+    ),
+    dict(
+        name='survey_discretion_no_participation',
+        display_name='survey (discretion-no-participation)',
+        num_demo_participants=2,
+        app_sequence=['survey'],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.NO_PARTICIPATION,
+        ),
+    ),
+    dict(
+        name='survey_discretion_participation',
+        display_name='survey (discretion-participation)',
+        num_demo_participants=2,
+        app_sequence=['survey'],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.PARTICIPATION,
+        ),
+    ),
+    dict(
+        name='survey_no_discretion_negotiation',
+        display_name='survey (no discretion-negotiation)',
+        num_demo_participants=2,
+        app_sequence=['survey'],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.NEGOTIATION,
+        ),
+    ),
+    dict(
+        name='survey_no_discretion_no_participation',
+        display_name='survey (no discretion-no participation)',
+        num_demo_participants=2,
+        app_sequence=['survey'],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.NO_PARTICIPATION,
+        ),
+    ),
+    dict(
+        name='survey_no_discretion_participation',
+        display_name='survey (no discretion-participation)',
+        num_demo_participants=2,
+        app_sequence=['survey'],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.PARTICIPATION,
+        ),
+    ),
+    # =================================================================
+    dict(
+        name='instructions_discretion_negotiation',
+        display_name='Instructions (discretion-negotiation)',
+        num_demo_participants=2,
+        app_sequence=['instructions',],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.NEGOTIATION,
+        ),
+    ),
+    dict(
+        name='instructions_discretion_no_participation',
+        display_name='Instructions (discretion-no participation)',
+        num_demo_participants=2,
+        app_sequence=['instructions',],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.NO_PARTICIPATION,
+        ),
+    ),
+    dict(
+        name='instructions_discretion_participation',
+        display_name='Instructions (discretion-participation)',
+        num_demo_participants=2,
+        app_sequence=['instructions',],
+        vars=dict(
+            discretion=True,
+            bonus_setting=config_constants.PARTICIPATION,
+        ),
+    ),
+    dict(
+        name='instructions_no_discretion_negotiation',
+        display_name='Instructions (no discretion-negotiation)',
+        num_demo_participants=2,
+        app_sequence=['instructions',],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.NEGOTIATION,
+        ),
+    ),
+    dict(
+        name='instructions_no_discretion_no_participation',
+        display_name='Instructions (no discretion-no participation)',
+        num_demo_participants=2,
+        app_sequence=['instructions',],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.NO_PARTICIPATION,
+        ),
+    ),
+    dict(
+        name='instructions_no_discretion_participation',
+        display_name='Instructions (no discretion-participation)',
+        num_demo_participants=2,
+        app_sequence=['instructions',],
+        vars=dict(
+            discretion=False,
+            bonus_setting=config_constants.PARTICIPATION,
+        ),
+    ),
+    # dict(
+    #     name='practice',
+    #     display_name='practice',
+    #     num_demo_participants=2,
+    #     app_sequence=['practice'],
+    #     vars=dict(
+    #         discretion=True,
+    #         bonus_setting=config_constants.NEGOTIATION,
+    #     ),
+    # ),
+    # dict(
+    #     name='main',
+    #     display_name='game',
+    #     num_demo_participants=2,
+    #     app_sequence=['main'],
+    # ),
+    # dict(
+    #     name='consent',
+    #     display_name='Consent',
+    #     num_demo_participants=1,
+    #     app_sequence=['consent',],
+    # ),
+    # dict(
+    #     name='payment',
+    #     display_name='payment',
+    #     num_demo_participants=1,
+    #     app_sequence=['payment']
+    # ),
     dict(
         name='pilot',
         display_name='full pilot',
         num_demo_participants=1,
         app_sequence=['pilot_instructions', 'pilot_practice', 'pilot', 'pilot_survey', 'pilot_payment']
     ),
-    dict(
-        name='pilot_instructions',
-        display_name='pilot instructions',
-        num_demo_participants=1,
-        app_sequence=['pilot_instructions',]
-    ),
-    dict(
-        name='pilot_practice',
-        display_name='pilot practice',
-        num_demo_participants=1,
-        app_sequence=['pilot_practice',]
-    ),
-    dict(
-        name='pilot_survey',
-        num_demo_participants=1,
-        display_name='pilot survey',
-        app_sequence=['pilot_survey']
-    ),
-    dict(
-        name='pilot_payment',
-        num_demo_participants=1,
-        display_name='pilot payment',
-        app_sequence=['pilot_payment']
-    )
+    # dict(
+    #     name='pilot_instructions',
+    #     display_name='pilot instructions',
+    #     num_demo_participants=1,
+    #     app_sequence=['pilot_instructions',]
+    # ),
+    # dict(
+    #     name='pilot_practice',
+    #     display_name='pilot practice',
+    #     num_demo_participants=1,
+    #     app_sequence=['pilot_practice',]
+    # ),
+    # dict(
+    #     name='pilot_survey',
+    #     num_demo_participants=1,
+    #     display_name='pilot survey',
+    #     app_sequence=['pilot_survey']
+    # ),
+    # dict(
+    #     name='pilot_payment',
+    #     num_demo_participants=1,
+    #     display_name='pilot payment',
+    #     app_sequence=['pilot_payment']
+    # )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

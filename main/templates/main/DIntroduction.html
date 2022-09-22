@@ -10,7 +10,7 @@
 
 {% if player.role == 'worker' %}
     <p>
-        You will have two minutes to work on the production task.
+        You will have two minutes to work on the decoding task.
     </p>
     <p>
         You will earn 5 Lira for each correct grid submitted during the two-minute production
@@ -18,32 +18,32 @@
     </p>
     <p>
         If you achieve the set target during the period, you will be eligible to receive the standard
-        bonus of 200 Lira. The manager will learn your performance and has discretion as to your
+        bonus of {{worker_bonus}} Lira. The manager will learn your performance and has discretion as to your
         final bonus amount. The manager will pay 10% of any bonus you receive. Remember that
         you will not be paired with the same manager next period.
     </p>
     <p>
-        While the manager will neither practice nor perform the production task, the managers
-        are told the range of performance on the decoding task in a normal period based on a
-        pilot study of xx participants.
+        While the manager will neither practice nor perform the decoding task, the managers
+        are told the range of performance on the decoding task in a <b>normal period</b> based on a
+        pilot study of {{pilot_participants}} participants.
     </p>
 {% elif player.role == 'manager' %}
     <p>
-        Once a target has been set your worker will perform the production task.
+        Once a target has been set your worker will perform the decoding task.
     </p>
     <p>
-        Based on prior experience, {{pilot_percentage_one}}% of workers can do {{pilot_grids_one}} grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a
-        normal period based on a pilot study of {{pilot_participants}} participants.
+        Based on a pilot study of {{pilot_participants}} participants, {{pilot_percentage_one}}% of workers can do {{pilot_grids_one}} 
+        grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a <b>normal period</b>.
     </p>
     <p>
-        You will earn 10 Lira for each question the worker correctly adjusts during the two-
+        You will earn 10 Lira for each grid the worker correctly adjusts during the two-
         minute production period and the worker will earn 5 Lira for each correctly submitted
-        question.
+        grid.
     </p>
     <p>
-        The standard bonus for the company is 200 Lira if the worker achieves the set target
+        The standard bonus for the company is {{worker_bonus}} Lira if the worker achieves the set target
         during the period. You will learn the worker’s performance and you have discretion as to
-        their final bonus amount. You will pay 10% of any bonus you award to the worker.
+        his or her final bonus amount. You will pay 10% of any bonus you award to the worker.
         Remember that you will not be paired with the same worker next period.
     </p>
 {% else %}

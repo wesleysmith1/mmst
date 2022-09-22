@@ -2,7 +2,7 @@
 {% load otree %}
 
 {% block title %}
-    Bonus
+    Target negotiation
 {% endblock %}
 
 <!-- =========================================================================== -->
@@ -19,6 +19,7 @@
 
         let app = new Vue({
             el: '#app',
+            delimiters: ['{+', '+}'],
             components: {
                 'bonus-input-component': bonusInputComponent,
             },
@@ -45,7 +46,6 @@
                 },
                 workerAdvance: function() {
                     if (this.role === 'worker' & this.targetRound === 8) {
-                        alert('WORKER BEING ADVANCED')
                         this.advance()
                     }
                 },
@@ -58,6 +58,7 @@
                         this.advance()
                     } else {
                         this.proposedTarget = data.proposal
+                        $('#proposedTarget').text = this.proposedTarget
                     }
                 },
                 submitProposal: function(value) {
@@ -87,30 +88,28 @@
 {% block content %}
 
     <div id="app">
-        {% verbatim %}
 
             <div ref="wrapper" style="display: none">
 
                 <div v-if="role === 'worker'">
                     <div v-if="targetRound == 1">
                         You and the manager need to set a target for your performance for this period. This
-                        performance target represents the number of grids you must correctly submit to earn the
-                        bonus. You will have 4 rounds to negotiate the target. If a target is not agreed upon after
-                        4 rounds, then the manager will set the final target. What would you like to propose as
-                        the target to start the negotiation
+                        performance target represents the number of grids you must correctly submit to be eligible for the
+                        bonus. You will have up to 4 rounds to negotiate the target. If a target is not agreed upon after
+                        4 rounds, then the manager will set the final target.
                         <bonus-input-component 
                             @propose="submitProposal"
                             label="What would you like to propose as the target to start the negotiation?"
                         ></bonus-input-component>
                     </div>
 
-                    <div v-if="targetRound == 2 | targetRound == 4 | targetRound == 6">
+                    <div v-if="targetRound == 2 | targetRound == 4 | targetRound == 6 | targetRound == 8">
                         Waiting for manager...
                     </div>
 
-                    <div v-if="targetRound == 3 | targetRound == 5">
+                    <div v-if="targetRound == 3 | targetRound == 5 | targetRound == 7">
                         <div>
-                            The manager did not accept the target and has suggested a target of {{proposedTarget}}. 
+                            The manager did not accept the target and has suggested a target of {+ proposedTarget +}. 
                             Do you accept this target? <button class="btn btn-primary" type="button" @click="accept">Accept</button> 
                         </div>
                         <div>
@@ -121,39 +120,33 @@
                         </div>
                     </div>
 
-                    <div v-if="targetRound == 7">
+                    <div v-if="targetRound == 9">
                         <div>
-                            The manager did not accept the target and has suggested a target of {{proposedTarget}}. 
+                            The manager did not accept the target and has suggested a target of {+ proposedTarget +}. 
                             Do you accept this target? 
                             <button class="btn btn-primary" type="button" @click="accept">Accept</button> 
                             <button class="btn btn-primary" type="button" @click="noAgreementMet">No</button>
                         </div>
                     </div>
 
-                    <!-- <div v-if="targetRound == 8">
-                        N [if no agreement after 4 rounds of negotiation] You have not reached an agreed upon
-                        target with the manager. The manager has set a target of {{proposedTarget}} for the period.
-                    </div> -->
-
                     <!-- ===================================================================================== -->
 
-                    <!-- <div v-if="targetRound == 10">
-                        N Your performance target in period 1 is: {{finalTarget}}
-                    </div> -->
                 </div>
                 <div v-else>
-                    <h3>You are the manager</h3>
 
-                    <div v-if="targetRound == 1">
+                    <div v-if="targetRound == 1 | targetRound == 2">
                         You and the worker need to set a target for the number of grids to correctly submit
                         during the period. You will have 4 rounds to negotiate the target. If a target is not agreed
-                        upon after 4 rounds, then you as the manager will set the final target. You will receive a
-                        target from the worker to start the negotiation. Please wait.
+                        upon after 4 rounds, then you as the manager will set the final target.
                     </div>
 
-                    <div v-if="targetRound == 2 | targetRound == 4 | targetRound == 6">
+                    <div v-if="targetRound == 1">
+                        You will receive a target from the worker to start the negotiation. Please wait.
+                    </div>
+
+                    <div v-if="targetRound == 2 | targetRound == 4 | targetRound == 6 | targetRound == 8">
                         <div>
-                            The worker proposed a target of {{proposedTarget}}. Do you accept this target? <button class="btn btn-primary" type="button" @click="accept">Accept</button>
+                            The worker proposed a target of {+ proposedTarget +}. Do you accept this target? <button class="btn btn-primary" type="button" @click="accept">Accept</button>
                         </div>
                         <br>
                         <div>
@@ -164,28 +157,25 @@
                         </div>
                     </div>
 
-                    <div v-if="targetRound == 3 | targetRound == 5 | targetRound == 7">
+                    <div v-if="targetRound == 3 | targetRound == 5 | targetRound == 7 | targetRound == 9">
                         Waiting for worker...
                     </div>
 
                     <!-- ======================================================================================= -->
 
-                    <div v-if="targetRound == 8">
+                    <div v-if="targetRound == {{Constants.final_round}}">
                          You have not reached an agreed upon target with the worker. 
                         <bonus-input-component 
                             @propose="submitProposal"
-                            label="You will set the final target. What target would you like to set for the worker for the period?."
+                            label="You will set the final target. What target would you like to set for the worker for the period?"
                         ></bonus-input-component>                    
                     </div>
-
-                    <!-- <div v-if="targetRound == 10">N The performance target for the worker in period 1 is: {{ finalTarget }}.</div> -->
 
                 </div>
             </div>
 
             <button ref="submitBtn" style="display: none">Hidden submit</button>
 
-        {% endverbatim %}
     </div>  
 
     <button id='submitBtn' class="btn btn-primary" style="display: none;">

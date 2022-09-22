@@ -43,18 +43,15 @@ class Subsession(BaseSubsession):
             if player.role == Constants.manager_role:
                 player.participant.vars['trivia_token'] = get_token()
 
-            # if player.participant.id % 2:
-            #     # todo: fix this
-            #     player.role = Constants.manager_role
-            #     # retrieve and set trivia token
-            #     player.participant.vars['trivia_token'] = get_token()
-            #     pass
-            # else:
-            #     player.role = Constants.worker_rold
+        groups = self.get_groups()
+        for group in groups:
+            group.discretion = self.session.config['vars']['discretion']
+            group.bonus_setting = self.session.config['vars']['bonus_setting']
 
 
 class Group(BaseGroup):
-    pass
+    discretion = models.BooleanField()
+    bonus_setting = models.StringField()
 
 
 class Player(BasePlayer):

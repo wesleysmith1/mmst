@@ -1,149 +1,373 @@
 from otree.api import Currency as c, currency_range
 
 from ._builtin import Page, WaitPage
-from .models import Constants
+from .models import Constants, Player
 
 import config, config_constants
 
 
-class WorkerSurvey1(Page):
+class WSurvey1(Page):
     form_model = 'player'
+
     form_fields = [
-            's1',
-            's2',
-            's3',
-            's4',
-            's5',
-            's6',
-            's7',
-            's8',
-            's9',
-            'wro1', 
-            'wro2', 
-            'wro3', 
-            'wro4',
-        ]
-    if not config.discretion:
-        form_fields.remove('wro4')
-        form_fields.remove('wro3')
-        form_fields.remove('wro2')
-        form_fields.remove('wro1')
+        'q1',
+        'q2',
+        'q3',
+        'q4',
+        'q5',
+        'q6',
+        'q7',
+        'q8',
+        'q9',
+    ]
 
     def is_displayed(self):
-        return self.player.role == 'worker' and not config.discretion
+        return self.player.role == 'worker'
 
     def vars_for_template(self):
         return dict(
-            # custom_role=self.participant.vars.get('custom_role', 'manager'),
-            discretion=config.discretion,
-            bonus_setting=config.bonus_setting,
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+class MSurvey1(Page):
+    form_model = 'player'
+
+    form_fields = [
+            'q1',
+            'q2',
+            'q3',
+            'q9',
+        ]
+
+    def is_displayed(self):
+        return self.player.role == 'manager'
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+
+class WSurvey2(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        form_fields = [
+        ]
+
+        if self.group.discretion:
+            if self.group.bonus_setting == config_constants.PARTICIPATION:
+                form_fields.append('wq10a')
+                form_fields.append('wq10b')
+                form_fields.append('wq10c')
+                form_fields.append('wq10d')
+            elif self.group.bonus_setting == config_constants.NEGOTIATION:
+                form_fields.append('wq10a')
+                form_fields.append('wq10b')
+                form_fields.append('wq10c')
+                form_fields.append('wq10d')
+            elif self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+                pass
+        elif not self.group.discretion:
+            if self.group.bonus_setting == config_constants.PARTICIPATION:
+                form_fields.append('wq10a')
+                form_fields.append('wq10b')
+                form_fields.append('wq10c')
+            elif self.group.bonus_setting == config_constants.NEGOTIATION:
+                form_fields.append('wq10a')
+                form_fields.append('wq10b')
+                form_fields.append('wq10c')
+            elif self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+                pass
+
+        return form_fields
+
+        
+    @staticmethod
+    def error_message(values):
+
+        if len(set(values.values())) != len(values.values()):
+            return "Each response must have a different number."
+
+    def is_displayed(self):
+        return self.player.role == 'worker' and self.group.bonus_setting != config_constants.NO_PARTICIPATION
+
+    def vars_for_template(self):
+
+        if not self.group.discretion or self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+            important = 3
+        else:
+            important = 4
+
+        return dict(
+            important=important,
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+
+class MSurvey2(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        form_fields = []
+
+        if self.group.discretion:
+            if self.group.bonus_setting == config_constants.PARTICIPATION:
+                pass
+            elif self.group.bonus_setting == config_constants.NEGOTIATION:
+                form_fields.append('mq10a')
+                form_fields.append('mq10b')
+                form_fields.append('mq10c')
+                # form_fields.append('mq10d')
+            elif self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+                form_fields.append('mq10a')
+                form_fields.append('mq10b')
+                form_fields.append('mq10c')
+                # form_fields.append('mq10d')
+        elif not self.group.discretion:
+            if self.group.bonus_setting == config_constants.PARTICIPATION:
+                pass
+            elif self.group.bonus_setting == config_constants.NEGOTIATION:
+                form_fields.append('mq10a')
+                form_fields.append('mq10b')
+                form_fields.append('mq10c')
+            elif self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+                form_fields.append('mq10a')
+                form_fields.append('mq10b')
+                form_fields.append('mq10c')
+
+        return form_fields
+
+    def is_displayed(self):
+        return self.player.role == 'manager' and self.group.bonus_setting != config_constants.PARTICIPATION
+
+    @staticmethod
+    def error_message(values):
+
+        if len(set(values.values())) != len(values.values()):
+            return "Each response must have a different number."
+        
+
+    def vars_for_template(self):
+
+        if not self.group.discretion or self.group.bonus_setting == config_constants.PARTICIPATION:
+            important = 3
+        else:
+            important = 4
+
+        return dict(
+            important=important,
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+
+class WSurvey3(Page):
+    """Target to motivation"""
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        form_fields = [
+            'q11',
+        ]
+
+        if self.group.bonus_setting in (config_constants.PARTICIPATION , config_constants.NEGOTIATION):
+            form_fields = [
+                'q11',
+                'q12'
+            ]
+        else:
+            form_fields = [
+                'q11',
+            ]
+
+        return form_fields
+
+    def is_displayed(self):
+        return self.player.role == 'worker'
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+class WSurvey4(Page):
+    """Procedural justice questions"""
+    form_model = 'player'
+    form_fields = [
+        'q13',
+        'q14',
+        'q15',
+    ]
+
+    def is_displayed(self):
+        return self.player.role == 'worker'
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+class MSurvey3(Page):
+    """Procedural justice questions"""
+    form_model = 'player'
+    form_fields = [
+        'q13',
+        'q14',
+        'q15',
+    ]
+
+    def is_displayed(self):
+        return self.player.role == 'manager'
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+
+class MSurvey3D(Page):
+    """Manager only questions (discretion only)"""
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+            return [
+                'q16',
+                'q17',
+                'q18',
+                'q19',
+                # 'q20',
+            ]
+        elif self.group.bonus_setting == config_constants.NEGOTIATION:
+            return [
+                'q16',
+                'q17',
+                'q18',
+                'q19',
+                # 'q20',
+            ]
+        else:
+            return [
+                # 'q16',
+                # 'q17',
+                'q18',
+                # 'q19',
+                # 'q20',
+            ]
+
+    def is_displayed(self):
+        return self.player.role == 'manager' and self.group.discretion
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+class MSurvey4D(Page):
+    """Manager only questions (discretion only)"""
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        if self.group.bonus_setting == config_constants.PARTICIPATION:
+            return [
+                'q20',
+                'q21',
+                'q22',
+                'q23',
+                'q24',
+            ]
+        elif self.group.bonus_setting == config_constants.NEGOTIATION:
+            return [
+                'q20',
+                'q21',
+                'q22',
+                'q23',
+                'q24',
+            ]
+        else:
+            return [
+                'q20',
+                'q22',
+                'q23',
+                'q24',
+            ]
+
+    def is_displayed(self):
+        return self.player.role == 'manager' and self.group.discretion
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
         )
 
     @staticmethod
     def error_message(values):
-        '''Ensure that the rank order responses are distinct'''
-        inputs = []
-        r = 5 if config.discretion else 3 # ro4 question is only for discretion
-        for i in range(1,r):
-            val = values.get(f"ro{i}")
-            if not val:
-                continue
-            if val in inputs:
-                return "Responses to news preferences rank order question must not be duplicated"
-            else:
-                inputs.append(val)
+        fields =  [
+                'q20',
+                'q21',
+                'q22',
+                'q23',
+                'q24',
+            ]
 
-class ManagerSurvey1(Page):
+        total = 0
+        for f in fields:
+            total += values.get(f, 0)
+
+        if total != 100:
+            return f"The total of questions must equal 100. The current total is {total}."
+
+
+class MSurvey3ND(Page):
+    """Manager only questions (no discretion)"""
     form_model = 'player'
-    form_fields = [
-            's1',
-            's2',
-            's3',
-            's9',
-            'mro1', 
-            'mro2', 
-            'mro3', 
-            'mro4',
-        ]
-    if not config.discretion:
-        form_fields.remove('mro4')
+
+    def get_form_fields(self):
+
+        if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+            return [
+                'q25',
+                'q26',
+                'q27',
+                'q28',
+            ]
+        elif self.group.bonus_setting == config_constants.NEGOTIATION:
+            return [
+                'q25',
+                'q26',
+                'q27',
+                'q28',
+            ]
+        else:
+            return [
+                # 'q25',
+                # 'q26',
+                'q27',
+                # 'q28',
+            ]
 
     def is_displayed(self):
-        return self.player.role == Constants.manager_role
+        return self.player.role == 'manager' and not self.group.discretion
 
     def vars_for_template(self):
         return dict(
-            # custom_role=self.participant.vars.get('custom_role', 'manager'),
-            discretion=config.discretion,
-            bonus_setting=config.bonus_setting,
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
         )
-
-    @staticmethod
-    def error_message(values):
-        '''Ensure that the rank order responses are distinct'''
-        inputs = []
-        r = 5 if config.discretion else 4 # mro4 question is only for discretion
-        for i in range(1,r):
-            val = values[f"mro{i}"]
-            if val in inputs:
-                return "Responses to news preferences rank order question must not be duplicated"
-            else:
-                inputs.append(val)
-
-class Survey2(Page):
-    form_model = 'player'
-    form_fields = [
-        'ttm1',
-        'ttm2',
-    ]
-    if config.bonus_setting == config_constants.NO_PARTICIPATION:
-        form_fields.remove('ttm1')
-
-    def is_displayed(self):
-        return self.player.role == Constants.worker_role
-
-class Survey3(Page):
-    form_model = 'player'
-    form_fields = [
-        'pj1',
-        'pj2',
-        'pj3',
-    ]
-
-class ManagerSurvey2(Page):
-    form_model = 'player'
-    if config.discretion:
-        form_fields = [
-            'd1',
-            'd2',
-            'd3',
-            'd4',
-            'd5',
-        ]
-    else:
-        form_fields = [
-            'nd1',
-            'nd2',
-            'nd3',
-            'nd4',
-        ]
-    
-    def is_displayed(self):
-        return self.player.role == Constants.manager_role
-
-class ManagerSurvey3(Page):
-    form_model = 'player'
-    if config.discretion:
-        form_fields = [
-            'd5',
-        ]
-    else:
-        form_fields = [
-            'd5',
-        ]
-    
-    def is_displayed(self):
-        return self.player.role == Constants.manager_role and config.discretion
 
 
 class Demographics(Page):
@@ -154,5 +378,6 @@ class Demographics(Page):
         'native_english',
     ]
 
+# ======================================================================================
 
-page_sequence = [ManagerSurvey1, WorkerSurvey1, Survey2, Survey3, ManagerSurvey2, ManagerSurvey3, Demographics]
+page_sequence = [WSurvey1, MSurvey1, WSurvey2, MSurvey2, WSurvey3, WSurvey4, MSurvey3, MSurvey3ND, MSurvey3D, MSurvey4D, Demographics]

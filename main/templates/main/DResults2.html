@@ -2,7 +2,7 @@
 {% load otree %}
 
 {% block title %}
-    Final Round Results 
+    Final Period {{player.round_number}} Results 
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,8 @@
     {% if player.role == 'worker' %}
 
         <p>
-            Your pay for the period is {{player.payoff_lira}}. {{player.decodes_earnings}} from task performance and {{player.group.bonus}} from the bonus awarded by the manager.
+            Your pay for the period is {{player.payoff_lira}} Lira. {{player.decodes_earnings}} from task performance, 
+            {{player.group.bonus}} from the bonus awarded by the manager, and {{worker_salary}} from your salary.
         </p>
         <p>
             Remember that you will not be paired with the same manager next period.
@@ -19,9 +20,9 @@
     {% elif player.role == 'manager' %}
 
         <p>
-            Your final pay for the period is {{ player.payoff_lira }}. {{player.decodes_earnings}} from the decoding task minus 
-            {{bonus_contrib}} (10% of the bonus payment to the worker), 
-            {{player.trivia_earnings}} from your performance on the trivia questions.
+            Your final pay for the period is {{ player.payoff_lira }} Lira. You earned {{player.decodes_earnings}} from the decoding task performed by the worker, 
+            {{player.trivia_earnings}} from your performance on the trivia questions,
+            {{manager_salary}} from your salary, and paid {{manager_bonus_contribution}} for the worker's bonus.
         </p>
 
     {% endif %}

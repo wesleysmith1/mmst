@@ -23,9 +23,6 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds = 1
 
-    # manager = 'manager'
-    # worker = 'worker'
-
     manager_role = 'manager'
     worker_role = 'worker'
 
@@ -43,17 +40,18 @@ class Constants(BaseConstants):
         'wq8': True,
         'wq9': True,
         'wq10': True,
+        # 'wq11': True,
         'wq11': True,
         'wq12': True,
         'wq13': True,
-        'wq14': True,
+        'q3': True,
     }
 
     manager_answers = {
         'mq3': True,
         'mq4': True,
         'mq5': True,
-        'mq6': True,
+        'mq6': False,
         'mq7': True,
         'mq8': True,
         'mq9': True,
@@ -61,29 +59,23 @@ class Constants(BaseConstants):
         'mq11': True,
         'mq12': True,
         'mq13': True,
-        'mq14': True,
+        'q3': True,
     }
 
 
 class Subsession(BaseSubsession):
     
     def creating_session(self):
-        players = self.get_players()
 
-        # # set role and calculate if round is difficult or not
-        # for player in players:
-        #     if player.participant.id % 2:
-        #         # todo: fix this
-        #         player.custom_role = 'manager'
-        #         pass
-        #     else:
-        #         player.custom_role = 'worker'
-        #     player.participant.vars['custom_role'] = player.custom_role
-
+        groups = self.get_groups()
+        for group in groups:
+            group.discretion = self.session.config['vars']['discretion']
+            group.bonus_setting = self.session.config['vars']['bonus_setting']
 
 
 class Group(BaseGroup):
-    pass
+    discretion = models.BooleanField()
+    bonus_setting = models.StringField()
 
 
 class Player(BasePlayer):
@@ -95,7 +87,7 @@ class Player(BasePlayer):
     )
     q2 = models.BooleanField(
         choices=[True, False],
-        label="A worker will be paired with a manager for a period and will be rematched with a different manager before each period."
+        label="A worker will be paired with a manager for a period and will be rematched with a different manager before the next period."
     )
     # ===============================================
     wq3 = models.BooleanField(
@@ -120,40 +112,40 @@ class Player(BasePlayer):
         label="I will receive 0 Lira for every grid I correctly submit."
     )
     
-    if config.bonus_setting == config_constants.NO_PARTICIPATION:
-        wq8 = models.BooleanField(
-            choices=[True, False],
-            label="Before each period begins, the manager will set a performance target for me."
-        )
-
-    if config.bonus_setting == config_constants.PARTICIPATION:
-        wq9 = models.BooleanField(
-            choices=[True, False],
-            label="Before each period begins, I will set a performance target for myself."
-        )
-
-    if config.bonus_setting == config_constants.NEGOTIATION:
-        wq10 = models.BooleanField(
-            choices=[True, False],
-            label="Before each period begins, the manager and I will negotiate a performance target for me."
-        )
-
-    wq11 = models.BooleanField(
+    # if config.bonus_setting == config_constants.NO_PARTICIPATION:
+    wq8 = models.BooleanField(
         choices=[True, False],
-        label="If I achieve my target, I will be eligible to receive the standard bonus of 200 Lira."
+        label="Before each period begins, the manager will set a performance target for me."
     )
 
-    if config.discretion:
-        wq12 = models.BooleanField(
-            choices=[True, False],
-            label="The manager will have discretion over the actual amount of my bonus."
-        )
+    # if config.bonus_setting == config_constants.PARTICIPATION:
+    wq9 = models.BooleanField(
+        choices=[True, False],
+        label="Before each period begins, I will set a performance target for myself."
+    )
 
-    wq13 = models.BooleanField(
+    # if config.bonus_setting == config_constants.NEGOTIATION:
+    wq10 = models.BooleanField(
+        choices=[True, False],
+        label="Before each period begins, the manager and I will negotiate a performance target for me."
+    )
+
+    # wq11 = models.BooleanField(
+    #     choices=[True, False],
+    #     label=f"If I achieve my target, I will be eligible to receive the standard bonus of {config.worker_bonus} Lira."
+    # )
+
+    # if config.discretion:
+    wq11 = models.BooleanField(
+        choices=[True, False],
+        label="The manager will have discretion over the actual amount of my bonus."
+    )
+
+    wq12 = models.BooleanField(
         choices=[True, False],
         label=f"10% of any awarded bonus will be paid from the earnings of the manager."
     )
-    wq14 = models.BooleanField(
+    wq13 = models.BooleanField(
         choices=[True, False],
         label=f"The manager will not perform the decoding task."
     )
@@ -175,41 +167,46 @@ class Player(BasePlayer):
         choices=[True, False],
         label="The worker will receive 0 Lira for every grid he/she correctly submits."
     )
-    mq6 = models.BooleanField(
+    mq7 = models.BooleanField(
         choices=[True, False],
         label="I will receive 10 Lira for every grid the worker correctly submits."
     )
-    
-    if config.bonus_setting == config_constants.NEGOTIATION:
-        mq7 = models.BooleanField(
-            choices=[True, False],
-            label="Before each period begins, I will set a performance target for the worker."
-        )
 
-    if config.bonus_setting == config_constants.PARTICIPATION:
-        mq8 = models.BooleanField(
-            choices=[True, False],
-            label="Before each period begins, the worker will set a performance target for him or herself."
-        )
-
-    if config.bonus_setting == config_constants.NEGOTIATION:
-        mq9 = models.BooleanField(
-            choices=[True, False],
-            label="Before each period begins, the worker and I will negotiate a performance target for the worker."
-        )
-
-    mq10 = models.BooleanField(
+    # if config.bonus_setting == config_constants.NO_PARTICIPATION:
+    mq8 = models.BooleanField(
         choices=[True, False],
-        label="If the worker achieves the target, the worker will be eligible to receive the standard bonus of 200 Lira."
+        label=f"Before each period begins, I will set a performance target for the worker."
     )
 
-    if config.discretion:
-        mq11 = models.BooleanField(
-            choices=[True, False],
-            label="I will have discretion over the actual amount of the worker’s bonus."
-        )
+    # if config.bonus_setting == config_constants.PARTICIPATION:
+    mq9 = models.BooleanField(
+        choices=[True, False],
+        label="Before each period begins, the worker will set a performance target for him or herself."
+    )
+
+    # if config.bonus_setting == config_constants.NEGOTIATION:
+    mq10 = models.BooleanField(
+        choices=[True, False],
+        label="Before each period begins, the worker and I will negotiate a performance target for the worker."
+    )
+
+    # mq11 = models.BooleanField(
+    #     choices=[True, False],
+    #     label=f"If the worker achieves the target, the worker will be eligible to receive the standard bonus of {config.worker_bonus} Lira."
+    # )
+
+    # if config.discretion:
+    mq11 = models.BooleanField(
+        choices=[True, False],
+        label="I will have discretion over the actual amount of the worker’s bonus."
+    )
 
     mq12 = models.BooleanField(
         choices=[True, False],
         label=f"I will pay 10% of any awarded bonus to the worker from my own earnings."
+    )
+
+    q3 = models.BooleanField(
+        choices=[True, False],
+        label=f"At the end of the study, the computer will randomly select one period (out of the ten periods) to calculate my payment."
     )

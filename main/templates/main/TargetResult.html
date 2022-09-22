@@ -10,21 +10,30 @@
     {% if player.role == 'worker' %}
 
         {% if player.group.target_round != 9 %}
-            <div>
+            <p>
                 Your performance target in period {{player.round_number}} is: {{player.group.final_target}}.
-            </div>
+            </p>
         {% else %}
-            <div>
-                [if no agreement after 4 rounds of negotiation] You have not reached an agreed upon
+            <p>
+                You have not reached an agreed upon
                 target with the manager. The manager has set a target of {{player.group.final_target}} for the period.
-            </div>
+            </p>
         {% endif %}
 
     {% elif player.role == 'manager' %}
 
-        <div>
+        <p>
             The performance target for the worker in period {{player.round_number}} is: {{player.group.final_target}}.
-        </div>
+        </p>
+
+        <p>
+            The decoding task lasts for two minutes. During this time, you will be provided trivia questions to answer.
+        </p>
+
+        <p>
+            You will earn {{trivia_earnings}} Lira for each trivia question you answer correctly during the two
+            minutes and will spend 15 seconds on each question. You have one chance to answer each question.
+        </p>
 
     {% endif %}
 

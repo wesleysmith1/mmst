@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Survey
+{% endblock %}
+
+{% block content %}
+
+    <!-- ================Rank Order================ -->
+
+    {% if bonus_setting != 'participation' %}
+
+        Please rank the following factors based on their importance in how you set the target, from the most important to the least important.
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div>I wanted to set a fair target for the worker.</div>
+            <div>{{ form.mq10a }}</div>
+        </div>
+
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div>I wanted to motivate the worker with the target.</div>
+            <div>{{ form.mq10b }}</div>
+        </div>
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div>I set the target at the level that I think would maximize my pay.</div>
+            <div>{{ form.mq10c }}</div>
+        </div>
+
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

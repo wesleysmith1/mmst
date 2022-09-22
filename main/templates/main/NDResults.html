@@ -16,10 +16,13 @@
             Your actual performance was {{player.decodes_completed}}.
         </p>
         <p>
-            The manager was informed this was a {{difficulty}} period.
+            The manager was informed this was a <b>{{difficulty}} period</b>. 
+            (Recall that each period the computer will randomly determine if it is a normal or difficult period, 
+            with an {{prob_easy}}% likelihood of being a normal period and a {{prob_difficult}}% likelihood of being a difficult period.)
         </p>
         <p>
-            Your pay for the period is {{payoff_lira}} Lira. {{player.decodes_earnings}} from task performance and {{player.group.bonus}} from the bonus.
+            Your pay for the period is {{payoff_lira}} Lira. {{player.decodes_earnings}} from task performance, {{player.group.bonus}} from the bonus,
+            and {{worker_salary}} from your salary.
         </p>
         <p>
             Remember that you will not be paired with the same manager next period.
@@ -45,11 +48,16 @@
         {% endif %}
 
         <p>
-            This was a {{difficulty}} period.
+            This was a <b>{{difficulty}} period</b>. 
+            (Recall that each period the computer will randomly determine if it is a normal or difficult period, 
+            with an {{prob_easy}}% likelihood of being a normal period and a {{prob_difficult}}% likelihood of being a difficult period.)
         </p>
 
         <p>
-           Your pay for the period is {{payoff_lira}} Lira. You earned {{player.decodes_earnings}} from the decoding task performed by the worker and {{player.trivia_earnings}} from your performance on the trivia questions. 
+           Your pay for the period is {{payoff_lira}} Lira. 
+           You earned {{player.decodes_earnings}} from the decoding task performed by the worker, 
+           {{player.trivia_earnings}} from your performance on the trivia questions,
+           {{manager_salary}} from your salary, and paid {{manager_bonus_contribution}} Lira for the worker's bonus.
         </p>
         <p>
             Remember that you will not be paired with the same worker next period.

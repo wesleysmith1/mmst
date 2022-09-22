@@ -10,36 +10,36 @@
 
 {% if player.role == 'worker' %}
     <p>
-        You will have two minutes to work on the production task.
+        You will have two minutes to work on the decoding task.
     </p>
     <p>
         You will earn 5 Lira for each correct grid submitted during the two-minute production
         period and the manager will earn 10 Lira for each correct grid submitted.
     </p>
     <p>
-        If you achieve the performance target, you will receive the standard bonus of 200 Lira, of
+        If you achieve the performance target, you will receive the standard bonus of {{worker_bonus}} Lira, of
         which 10% will be paid by the manager. Remember that you will not be paired with the
         same manager next period.
     </p>
     <p>
-        While the manager will neither practice nor perform the production task, the managers
-        are told the range of performance on the decoding task in a normal period based on a
-        pilot study of 30 participants.
+        While the manager will neither practice nor perform the decoding task, the managers
+        are told the range of performance on the decoding task in a <b>normal period</b> based on a
+        pilot study of {{pilot_participants}} participants.
     </p>
 {% elif player.role == 'manager' %}
     <p>
-        Once a target has been set, your worker will perform the production task.
+        Once a target has been set, your worker will perform the decoding task.
     </p>
     <p>
-        Based on prior experience, {{pilot_percentage_one}}% of workers can do {{pilot_grids_one}} grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a
-        normal period based on a pilot study of {{pilot_participants}} participants.
+        Based on a pilot study of {{pilot_participants}} participants, {{pilot_percentage_one}}% of workers can do {{pilot_grids_one}} 
+        grids and {{pilot_percentage_two}}% can do {{pilot_grids_two}} grids in a <b>normal period</b>.
     </p>
     <p>
         You will earn 10 Lira for each correct grid submitted during the two-minute production
         period and the worker will earn 5 Lira for each correct grid submitted.
     </p>
     <p>
-        If the worker achieves the target, he or she will receive the standard bonus of 200 Lira, of
+        If the worker achieves the target, he or she will receive the standard bonus of {{worker_bonus}} Lira, of
         which 10% will be paid from your earnings. Remember that you will not be paired with
         the same worker next period.
     </p>

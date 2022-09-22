@@ -18,7 +18,8 @@ class PaymentInfo(Page):
             final_payment_lira=int(performance / config.lira_per_dollar * 100),
             participation_usd=config.participation_fee,
             performance_lira=performance,
-            performance_usd=performance_usd
+            performance_usd=performance_usd,
+            lira_per_dollar=config.lira_per_dollar,
         )
 
 class Email(Page):

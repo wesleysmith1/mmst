@@ -7,6 +7,8 @@
 
 {% block content %}
 
+    {{ formfield_errors 'bonus' }}
+
     <p>
         The worker's target was {{player.group.final_target}}.
     </p>
@@ -14,10 +16,14 @@
         The worker's actual performance was {{worker_decodes}}.
     </p>
     <p>
-        This was a {{difficulty}} period.
+        This was a <b>{{difficulty}} period</b>.
+        (Recall that each period the computer will randomly determine if it is a normal or difficult period, 
+        with an {{prob_easy}}% likelihood of being a normal period and a {{prob_difficult}}% likelihood of being a difficult period.)
     </p>
     <p>
-    Your pay for the period is {{player.payoff_lira}}. {{player.decodes_earnings}} from the decoding task performed by the worker, {{player.trivia_earnings}} from your performance on the trivia questions. 
+        Your earnings for the period before any amount toward the worker's bonus is {{player.payoff_lira}} Lira. {{player.decodes_earnings}} from the decoding task performed by the worker, 
+        {{player.trivia_earnings}} from your performance on the trivia questions,
+        and {{manager_salary}} from your salary.
     </p>
     <p>
         {% if target_reached %}
@@ -25,15 +31,14 @@
         {% else %}
             The worker did not meet the target.
         {% endif %}
-        As the manager, you can adjust the worker's bonus of {{standard_bonus}} Lira 
-        by any amount you see fit; You will be responsible for paying 10% of the bonus from your own earnings. Would you like to adjust the worker's bonus?
+        As the manager, you can adjust the worker's bonus of {{group.bonus}} Lira 
+        to any amount you see fit{% if target_reached %} (up or down){% endif%}. You will be responsible for paying 10% of the bonus from your own earnings. Would you like to adjust the worker's bonus?
         <button class="btn btn-primary" onclick="noSubmit()">No</button> 
         <button class="btn btn-primary" type="button" onclick="document.getElementById('bonus-wrapper').style.display = 'block';">Yes</button>
-        you will pay {{standard_contrib}} Lira [{{manager_bonus_percentage}}%].
     </p>
 
     <div style="display: none" id="bonus-wrapper">
-        <label for='bonus'>The worker's current bonus is 200. What would you like to adjust the worker's bonus to?</label>
+        <label for='bonus'>The worker's current bonus is {{group.bonus}} Lira. What would you like to adjust the worker's bonus to?</label>
         <input id="bonus" style="display: inline;" class="form-control" type="number" name="bonus" placeholder="bonus">
         <button class="btn btn-primary">submit</button>
     </div>
@@ -44,7 +49,7 @@
     <button id='hidden-submit' style='display: none'>THIS SHOULD NOT BE SHOWING</button>
 
     <script>
-        let standardBonus = {{standard_bonus}}
+        let standardBonus = {{group.bonus}}
         // when form is submitted with no button
         function noSubmit() {
             let bonusInput = $('#bonus')

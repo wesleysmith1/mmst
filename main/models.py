@@ -37,10 +37,12 @@ class Constants(BaseConstants):
     worker_role = 'worker'
 
     # Final round of bonus negotiation stage
-    final_round = 10
+    final_round = 9
 
     manager_earnings = config.manager_earnings
     worker_earnings = config.worker_earnings
+    manager_salary = config.manager_salary
+    worker_salary = config.worker_salary
     trivia_earnings = config.trivia_earnings
     manager_contrib = config.manager_contrib
     worker_bonus = config.worker_bonus
@@ -81,12 +83,20 @@ class Subsession(BaseSubsession):
             # player.participant.vars['custom_role'] = player.custom_role
             player.participant.vars['payment_round'] = np.random.randint(Constants.num_rounds) + 1
 
+        groups = self.get_groups()
+        for group in groups:
+            group.discretion = self.session.config['vars']['discretion']
+            group.bonus_setting = self.session.config['vars']['bonus_setting']
+
+
 class Group(BaseGroup):
+    discretion = models.BooleanField()
+    bonus_setting = models.StringField()
     target_round = models.IntegerField(initial=1)
     proposed_target = models.IntegerField(initial=0)
     final_target = models.IntegerField(min=0, initial=-1)
     difficult = models.BooleanField()
-    bonus = models.IntegerField(min=0, initial=Constants.worker_bonus) #todo: on discretion the worker can get a fraction of a point. do we want this?
+    bonus = models.IntegerField(min=0, max=1000, initial=Constants.worker_bonus) #todo: on discretion the worker can get a fraction of a point. do we want this?
     '''
     negotiation stages:
         1 worker sets bonus 
@@ -152,6 +162,8 @@ class Player(BasePlayer):
     def calculate_payoff(self):
         # todo: calculate payment
         if self.role == Constants.manager_role:
+
+            self.payoff_lira += config.manager_salary
         
             self.trivia_earnings = self.trivia_count * Constants.trivia_earnings
             self.payoff_lira += self.trivia_earnings
@@ -161,18 +173,22 @@ class Player(BasePlayer):
             self.payoff_lira += self.decodes_earnings
             
         else:
-            self.decodes_earnings = self.decodes_completed * Constants.worker_earnings
-            self.payoff_lira = self.decodes_earnings
-        
-        if not config.discretion:
-            # was target reached?
-            if not self.group.target_reached(): 
-                self.group.bonus = 0 
 
+            self.payoff_lira += config.worker_salary
+
+            self.decodes_earnings = self.decodes_completed * Constants.worker_earnings
+            self.payoff_lira += self.decodes_earnings
+        
+        # was target reached?
+        if not self.group.target_reached(self): 
+            self.group.bonus = 0
+
+        # discretion bonus is calculated later
+        if not self.group.discretion:
             self.apply_bonus()
 
-        if self.participant.vars['payment_round'] == self.round_number:
-            self.participant.vars['payoff'] = self.payoff_lira
+            if self.participant.vars['payment_round'] == self.round_number:
+                self.participant.vars['payoff'] = self.payoff_lira
 
     def apply_bonus(self):
         """Manager pays part of bonus if target reached"""
@@ -182,11 +198,14 @@ class Player(BasePlayer):
             self.payoff_lira += self.group.bonus
 
     def apply_discretion(self):
-        """ Add bonus as decided my manager"""
+        """ Add bonus as decided my manager. Record payment if payment round"""
         if self.is_manager():
             self.payoff_lira -= self.group.bonus * Constants.manager_contrib_percentage
         elif self.is_worker():
             self.payoff_lira += self.group.bonus
+
+        if self.participant.vars['payment_round'] == self.round_number:
+                self.participant.vars['payoff'] = self.payoff_lira
 
     def is_manager(self):
         return self.role == Constants.manager_role
