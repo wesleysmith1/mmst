@@ -15,6 +15,7 @@ import config
 from helpers import get_round_key
 from trivia.helpers import get_question, get_token
 import numpy as np
+import random
 
 doc = """
 This is a one-shot "Prisoner's Dilemma". Two players are asked separately
@@ -48,6 +49,25 @@ class Constants(BaseConstants):
     worker_bonus = config.worker_bonus
     manager_contrib_percentage = config.manager_bonus_percentage
 
+def check_rematching(previous, current):
+    """Does the previous list, have any of the same groups as current list."""
+    for group in current:
+        if list(group) in previous:
+            return True
+    return False
+
+def random_group(participant_count):
+    """
+        Create list of groups like the following:
+        [(3, 8), (9, 6), (7, 4), (5, 2), (1, 10)]
+    """
+    ids = [i+1 for i in range(participant_count)]
+    odd = ids[0:len(ids):2]
+    even = ids[1:len(ids):2]
+    random.shuffle(odd)
+    random.shuffle(even)
+    return list(zip(odd, even))
+
 
 class Subsession(BaseSubsession):
     
@@ -57,36 +77,41 @@ class Subsession(BaseSubsession):
 
         players = self.get_players()
 
+        if len(players) == 2:
+            pass
+        else:
+            if self.round_number > 1:
+                
+                previous_group = self.in_previous_rounds()[-1].get_group_matrix()
+                current_group = self.get_group_matrix()
+
+                while check_rematching(previous_group, current_group):
+                    current_group = random_group(len(players))
+            
+                    self.set_group_matrix(current_group)
+        
         if len(players) % 2:
             raise ValueError('Odd numer of participants. There needs to be equal number of managers and workers for creating groups')
 
         # set role and calculate if round is difficult or not
         for player in players:
 
-            if player.role == Constants.manager_role:
-                player.participant.vars['trivia_token'] = get_token()
-            elif player.role == Constants.worker_role:
-                player.group.difficult = player.difficult = bool(np.random.binomial(1, config.probability_difficult)) 
-            else:
-                raise ValueError('This player does not have a set role!')
-
-            # if player.participant.id % 2:
-            #     # todo: fix this
-            #     player.role = Constants.manager_role
-            #     # retrieve and set trivia token
-            #     player.participant.vars['trivia_token'] = get_token()
-            #     pass
-            # else:
-            #     player.custom_role = 'worker'
-            #     player.group.difficult = player.difficult = bool(np.random.binomial(1, config.probability_difficult)) 
-                
-            # player.participant.vars['custom_role'] = player.custom_role
-            player.participant.vars['payment_round'] = np.random.randint(Constants.num_rounds) + 1
-
+            if player.role == Constants.worker_role:
+                player.group.difficult = player.difficult = bool(np.random.binomial(1, config.probability_difficult))
+            
         groups = self.get_groups()
         for group in groups:
             group.discretion = self.session.config['vars']['discretion']
             group.bonus_setting = self.session.config['vars']['bonus_setting']
+
+        if self.round_number == Constants.num_rounds:
+            # participant fields
+            for player in players:
+
+                if player.role == Constants.manager_role:
+                    player.participant.vars['trivia_token'] = get_token()
+
+                player.participant.vars['payment_round'] = np.random.randint(Constants.num_rounds) + 1
 
 
 class Group(BaseGroup):

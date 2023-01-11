@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-
     <!-- ==================scale question======================== -->
 
     <p style="margin-left: 50px;">
@@ -41,19 +40,31 @@
             </div>
         </div>
         <hr>
-
-        {% for field in form %}
-            <div class="row">
-                <div class="col-sm-5">
-                    {{ field.label }}
+        {% if discretion %}
+        
+            {% if bonus_setting == 'negotiation' %}
+                <div class="row">
+                    <div class="col-sm-5">
+                        {{ form.wq11b.label }}
+                    </div>
+                    {% for choice in form.wq11b %}
+                        <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+                    {% endfor %}
                 </div>
-                {% for choice in field %}
-                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
-                {% endfor %}
-            </div>
-            <hr>
-        {% endfor %}
+                <hr>
+            {% elif bonus_setting == 'participation' %}
+                <div class="row">
+                    <div class="col-sm-5">
+                        {{ form.wq11a.label }}
+                    </div>
+                    {% for choice in form.wq11a %}
+                        <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+                    {% endfor %}
+                </div>
+                <hr>
+            {% endif %}
 
+        {% endif %}
     </div>
 
     <!-- ========================================== -->

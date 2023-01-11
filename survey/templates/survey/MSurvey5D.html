@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Survey
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Please allocate 100 points among the reasons below based on how important each reason was to why you 
+        decided whether or not to use your discretion to adjust the worker's bonus, where higher values indicate 
+        more importance in your adjustment decision. 
+    </p>
+
+    <p>
+        I adjusted (did not adjust) the worker's bonus because:
+    </p>
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}
+

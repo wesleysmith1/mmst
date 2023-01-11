@@ -7,17 +7,87 @@
 
 {% block content %}
 
-    <p>
-        Please allocate 100 points among the reasons below based on how important each reason was to why you 
-        decided whether or not to use your discretion to adjust the worker's bonus, where higher values indicate 
-        more importance in your adjustment decision. 
+    <!-- ==================scale question======================== -->
+
+    <p style="margin-left: 50px;">
+        (1) Strongly disagree (4) Neither disagree nor agree (7) Strongly agree
     </p>
 
-    <p>
-        I adjusted (did not adjust) the worker's bonus because:
-    </p>
+    <hr>
+    <div class="container" style="alignment:center">
+        <div class="row" style="text-align: center; font-size: 12px;">
+            <div class="col-sm-5">
+            </div>
+            <div class="col-sm-1">
+                Strongly disagree
+            </div>
+            <div class="col-sm-1">
+                
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+                Neither disagree nor agree
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+            
+            </div>
+            <div class="col-sm-1">
+                Strongly agree
+            </div>
+        </div>
+        <hr>
 
-    {% formfields %}
+        {% if bonus_setting != 'participation' %}
+            <div class="row">
+                <div class="col-sm-5">
+                    {{ form.q17.label }}
+                </div>
+                {% for choice in form.q17 %}
+                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+                {% endfor %}
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-5">
+                    {{ form.q18.label }}
+                </div>
+                {% for choice in form.q18 %}
+                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+                {% endfor %}
+            </div>
+            <hr>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-5">
+                {{ form.q19.label }}
+            </div>
+            {% for choice in form.q19 %}
+                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+
+        {% if bonus_setting != 'participation' %}
+            <div class="row">
+                <div class="col-sm-5">
+                    {{ form.q20.label }}
+                </div>
+                {% for choice in form.q20 %}
+                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+                {% endfor %}
+            </div>
+            <hr>
+        {% endif %}
+
+    </div>
+
+    <!-- ========================================== -->
 
     {% next_button %}
 

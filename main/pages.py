@@ -80,13 +80,14 @@ class ParticipationWait(WaitPage):
     body_text = "The worker is currently setting a target for his or her performance for this period. This performance target represents the number of grids the worker must correctly submit to be eligible for the bonus. Please wait."
 
     def is_displayed(self):
-        return self.group.bonus_setting == config_constants.PARTICIPATION
+        return self.group.bonus_setting == config_constants.PARTICIPATION and self.player.role == Constants.manager_role
+
 
 # only the worker should see this
 class NoParticipationWait(WaitPage):
 
     def is_displayed(self):
-        return self.group.bonus_setting == config_constants.NO_PARTICIPATION
+        return self.group.bonus_setting == config_constants.NO_PARTICIPATION and self.player.role == Constants.worker_role
 
     # todo: this is not needed here right? 
     def vars_for_template(self):
@@ -96,6 +97,11 @@ class NoParticipationWait(WaitPage):
             body_text = "Waiting for the other participant."
 
         return dict(body_text=body_text)
+
+
+class Wait(WaitPage):
+    body_text = "Please wait."
+
 
 class NegotiationWait(WaitPage):
     body_text = "Please wait for the manager."
@@ -279,6 +285,7 @@ page_sequence = [
         ParticipationBonus,
         ParticipationWait,
         NoParticipationWait,
+        Wait,
         NegotiationWait,
         TargetResult,
         PreGame,

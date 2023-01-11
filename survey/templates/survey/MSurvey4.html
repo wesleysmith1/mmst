@@ -42,48 +42,17 @@
         </div>
         <hr>
 
-        {% if bonus_setting != 'participation' %}
+        {% for field in form %}
             <div class="row">
                 <div class="col-sm-5">
-                    {{ form.q16.label }}
+                    {{ field.label }}
                 </div>
-                {% for choice in form.q16 %}
+                {% for choice in field %}
                     <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
                 {% endfor %}
             </div>
             <hr>
-            <div class="row">
-                <div class="col-sm-5">
-                    {{ form.q17.label }}
-                </div>
-                {% for choice in form.q17 %}
-                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
-                {% endfor %}
-            </div>
-            <hr>
-        {% endif %}
-
-        <div class="row">
-            <div class="col-sm-5">
-                {{ form.q18.label }}
-            </div>
-            {% for choice in form.q18 %}
-                <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
-            {% endfor %}
-        </div>
-        <hr>
-
-        {% if bonus_setting != 'participation' %}
-            <div class="row">
-                <div class="col-sm-5">
-                    {{ form.q19.label }}
-                </div>
-                {% for choice in form.q19 %}
-                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
-                {% endfor %}
-            </div>
-            <hr>
-        {% endif %}
+        {% endfor %}
 
     </div>
 
@@ -92,4 +61,3 @@
     {% next_button %}
 
 {% endblock %}
-

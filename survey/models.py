@@ -115,15 +115,15 @@ class Player(BasePlayer):
     # discretion only
     wq10a = models.IntegerField(
         label="Fairness",
+        choices=[1,2,3]
     )
     wq10b = models.IntegerField(
         label="Motivation",
+        choices=[1,2,3]
     )
     wq10c = models.IntegerField(
-        label="pay"
-    )
-    wq10d = models.IntegerField(
-        label="Discretion"
+        label="pay",
+        choices=[1,2,3]
     )
     #==============================================================
 
@@ -133,101 +133,128 @@ class Player(BasePlayer):
     #==============================================================
     # discretion only
     mq10a = models.IntegerField(
-        label="Fairness"
+        label="Fairness",
+        choices=[1,2,3]
     )
     mq10b = models.IntegerField(
-        label="Motivation"
+        label="Motivation",
+        choices=[1,2,3]
     )
     mq10c = models.IntegerField(
-        label="pay"
+        label="pay",
+        choices=[1,2,3]
     )
-    #========================Discretion only======================================
-    mq10d = models.IntegerField(
+    #==============================================================
+
+    # (managers only – no participation condition)
+    mq11a = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
-        label="Discretion"
+        label="I considered my discretion to adjust the worker’s bonus at the end of each period when setting the target at the beginning of the period."
     )
+
+    # (managers only – negotiation condition)
+    mq11b = models.IntegerField(
+        choices=scale_options,
+        widget=widgets.RadioSelectHorizontal(),
+        label="I considered my discretion to adjust the worker’s bonus at the end of each period during the target negotiation."
+    )
+
+    # (workers only – participation condition) 
+    wq11a = models.IntegerField(
+        choices=scale_options,
+        widget=widgets.RadioSelectHorizontal(),
+        label="I considered the manager’s discretion to adjust my bonus at the end of each period when setting the target at the beginning of the period."
+    )
+
+    # (workers only – negotiation condition)
+    wq11b = models.IntegerField(
+        choices=scale_options,
+        widget=widgets.RadioSelectHorizontal(),
+        label="I considered the manager’s discretion to adjust my bonus at the end of each period during the target negotiation."
+    )
+
     #==============================================================
 
     # target to motivation 
     # # workers only
-    q11 = models.IntegerField(
+    q12 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="I was committed to meeting the target."
     )
     # worker only
-    q12 = models.IntegerField(
+    q13 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Having input into the target-setting process motivated me to achieve the target."
     )
 
     # prodedural justice
-    q13 = models.IntegerField(
+    q14 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="It is more important that rules and prodedures are equally fair to everyone than that everyone is paid a fair amount.",
     )
-    q14 = models.IntegerField(
+    q15 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="It is more important for people to be paid a fair amount than for the procedures used to determine compensation to be fair."
     )
-    q15 = models.IntegerField(
+    q16 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Performance evaluations should consider the individual and the situation rather than be based on rules and procedures",
     )
 
     # manager discretion (no participation and negotiation conditions only)
-    q16 = models.IntegerField(
+    q17 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could adjust the worker's bonus amount at the end of the period made me think more carefully about the worker's target.",
     )
     # manager discretion (no participation and negotiation conditions only)
-    q17 = models.IntegerField(
+    q18 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could adjust the worker's bonus amount at the end of the period made me put more effort into setting the worker's target.",
     )
     # manager discretion ALL CONDITIONS
-    q18 = models.IntegerField(
+    q19 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could adjust the worker's bonus amount at the end of the period made me feel more responsible for the worker's bonus outcome.",
     )
     # manager discretion (no participation and negotiation conditions only)
-    q19 = models.IntegerField(
+    q20 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could adjust the worker's bonus amount at the end of the period made me feel more responsible for setting an appropriate target for the worker.",
     )
 
     # ===============all questions add to 100======================
-    q20 = models.IntegerField(
+    q21 = models.IntegerField(
         label="I wanted to motivate future performance.",
         max=100,
         min=0,
     )
     # participation and negotiation conditions only
-    q21 = models.IntegerField(
+    q22 = models.IntegerField(
         label="I wanted to show that I appreciated the worker setting a difficult target.",
         max=100,
         min=0,
     )
-    q22 = models.IntegerField(
+    q23 = models.IntegerField(
         label="I wanted the worker’s compensation to be fair.",
         max=100,
         min=0,
     )
-    q23 = models.IntegerField(
+    q24 = models.IntegerField(
         label="I wanted the worker to trust me.",
         max=100,
         min=0,
     )
-    q24 = models.IntegerField(
+    q25 = models.IntegerField(
         label="I wanted the worker’s compensation to reflect their effort.",
         max=100,
         min=0,
@@ -235,25 +262,25 @@ class Player(BasePlayer):
     # =====================================================================
 
     # MANAGER no discretion (no participation and negotiation conditions only)
-    q25 = models.IntegerField(
+    q26 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could not adjust the worker's bonus amount at the end of the period made me think more carefully about the worker's target.",
     )
     # MANAGER no discretion (no participation and negotiation conditions only)
-    q26 = models.IntegerField(
+    q27 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Know that I could not adjust the worker's bonus amount at the end of the period made me put more effort into setting the worker's target.",
     )
     # MANAGER no discretion ALL CONDITIONS
-    q27 = models.IntegerField(
+    q28 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could not adjust the worker's bonus amount at the end of the period made me feel more responsible for the worker's bonus outcome.",
     )
     # MANAGER no discretion (no participation and negotiation conditions only)
-    q28 = models.IntegerField(
+    q29 = models.IntegerField(
         choices=scale_options,
         widget=widgets.RadioSelectHorizontal(),
         label="Knowing that I could not adjust the worker's bonus amount at the end of the period made me feel more responsible for setting an appropiate target for the worker.",
@@ -276,48 +303,7 @@ class Player(BasePlayer):
     )
 
 
-    def wq10a_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.NO_PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    def wq10b_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.NO_PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    def wq10c_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.NO_PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    def wq10d_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.NO_PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-
-    def mq10a_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    def mq10b_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    def mq10c_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    def mq10d_choices(self):
-        if not self.group.discretion or self.group.bonus_setting == config_constants.PARTICIPATION:
-            return [1,2,3]
-        return [1,2,3,4]
-
-    # def q20_choices(self):
+    # def q21_choices(self):
     #     if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
     #         return [
     #             "I wanted to motivate future performance.",

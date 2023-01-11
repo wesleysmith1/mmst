@@ -190,11 +190,6 @@ class Player(BasePlayer):
         label="Before each period begins, the worker and I will negotiate a performance target for the worker."
     )
 
-    # mq11 = models.BooleanField(
-    #     choices=[True, False],
-    #     label=f"If the worker achieves the target, the worker will be eligible to receive the standard bonus of {config.worker_bonus} Lira."
-    # )
-
     # if config.discretion:
     mq11 = models.BooleanField(
         choices=[True, False],

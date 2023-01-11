@@ -1,7 +1,7 @@
 import config_constants
 
 # treatment variables
-production_rounds = 2 #10
+production_rounds = 10
 
 # options 
 # NO_PARTICIPATION: manager decides

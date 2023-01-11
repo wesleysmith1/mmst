@@ -42,31 +42,17 @@
         </div>
         <hr>
 
-        {% if discretion %}
-        
-            {% if bonus_setting == 'no_participation' %}
-                <div class="row">
-                    <div class="col-sm-5">
-                        {{ form.mq11a.label }}
-                    </div>
-                    {% for choice in form.mq11a %}
-                        <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
-                    {% endfor %}
+        {% for field in form %}
+            <div class="row">
+                <div class="col-sm-5">
+                    {{ field.label }}
                 </div>
-                <hr>
-            {% elif bonus_setting == 'negotiation' %}
-                <div class="row">
-                    <div class="col-sm-5">
-                        {{ form.mq11b.label }}
-                    </div>
-                    {% for choice in form.mq11b %}
-                        <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
-                    {% endfor %}
-                </div>
-                <hr>
-            {% endif %}
-
-        {% endif %}
+                {% for choice in field %}
+                    <div class="col-sm-1" style="text-align: center;">{{ choice }}</div>
+                {% endfor %}
+            </div>
+            <hr>
+        {% endfor %}
 
     </div>
 

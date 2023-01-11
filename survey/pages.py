@@ -9,17 +9,27 @@ import config, config_constants
 class WSurvey1(Page):
     form_model = 'player'
 
-    form_fields = [
-        'q1',
-        'q2',
-        'q3',
-        'q4',
-        'q5',
-        'q6',
-        'q7',
-        'q8',
-        'q9',
-    ]
+    def get_form_fields(self):
+
+        form_fields = [
+            'q1',
+            'q2',
+            'q3',
+            'q4',
+            'q5',
+            'q6',
+            'q7',
+            'q8',
+            'q9',
+        ]
+
+        # if self.group.discretion:
+        #     if self.group.bonus_setting == config_constants.NEGOTIATION:
+        #         form_fields.append('wq11b')
+        #     elif self.group.bonus_setting == config_constants.PARTICIPATION:
+        #         form_fields.append('wq11a')
+
+        return form_fields
 
     def is_displayed(self):
         return self.player.role == 'worker'
@@ -33,12 +43,22 @@ class WSurvey1(Page):
 class MSurvey1(Page):
     form_model = 'player'
 
-    form_fields = [
+    def get_form_fields(self):
+
+        form_fields = [
             'q1',
             'q2',
             'q3',
             'q9',
         ]
+
+        # if self.group.discretion:
+        #     if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+        #         form_fields.append('mq11a')
+        #     elif self.group.bonus_setting == config_constants.NEGOTIATION:
+        #         form_fields.append('mq11b')
+
+        return form_fields
 
     def is_displayed(self):
         return self.player.role == 'manager'
@@ -63,12 +83,10 @@ class WSurvey2(Page):
                 form_fields.append('wq10a')
                 form_fields.append('wq10b')
                 form_fields.append('wq10c')
-                form_fields.append('wq10d')
             elif self.group.bonus_setting == config_constants.NEGOTIATION:
                 form_fields.append('wq10a')
                 form_fields.append('wq10b')
                 form_fields.append('wq10c')
-                form_fields.append('wq10d')
             elif self.group.bonus_setting == config_constants.NO_PARTICIPATION:
                 pass
         elif not self.group.discretion:
@@ -123,12 +141,10 @@ class MSurvey2(Page):
                 form_fields.append('mq10a')
                 form_fields.append('mq10b')
                 form_fields.append('mq10c')
-                # form_fields.append('mq10d')
             elif self.group.bonus_setting == config_constants.NO_PARTICIPATION:
                 form_fields.append('mq10a')
                 form_fields.append('mq10b')
                 form_fields.append('mq10c')
-                # form_fields.append('mq10d')
         elif not self.group.discretion:
             if self.group.bonus_setting == config_constants.PARTICIPATION:
                 pass
@@ -154,37 +170,78 @@ class MSurvey2(Page):
         
 
     def vars_for_template(self):
-
-        if not self.group.discretion or self.group.bonus_setting == config_constants.PARTICIPATION:
-            important = 3
-        else:
-            important = 4
-
         return dict(
-            important=important,
             discretion=self.group.discretion,
             bonus_setting=self.group.bonus_setting,
         )
 
 
 class WSurvey3(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        form_fields = []
+
+        if self.group.discretion:
+            if self.group.bonus_setting == config_constants.NEGOTIATION:
+                form_fields.append('wq11b')
+            elif self.group.bonus_setting == config_constants.PARTICIPATION:
+                form_fields.append('wq11a')
+
+        return form_fields
+
+    def is_displayed(self):
+        return self.group.discretion and self.player.role == 'worker' and (self.group.bonus_setting == config_constants.PARTICIPATION or self.group.bonus_setting == config_constants.NEGOTIATION)
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+class MSurvey3(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+
+        form_fields = []
+
+        if self.group.discretion:
+            if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
+                form_fields.append('mq11a')
+            elif self.group.bonus_setting == config_constants.NEGOTIATION:
+                form_fields.append('mq11b')
+
+        return form_fields
+
+    def is_displayed(self):
+        return self.group.discretion and self.player.role == 'manager' and (self.group.bonus_setting == config_constants.NO_PARTICIPATION or self.group.bonus_setting == config_constants.NEGOTIATION)
+
+    def vars_for_template(self):
+        return dict(
+            discretion=self.group.discretion,
+            bonus_setting=self.group.bonus_setting,
+        )
+
+class WSurvey4(Page):
     """Target to motivation"""
     form_model = 'player'
 
     def get_form_fields(self):
 
         form_fields = [
-            'q11',
+            'q12',
         ]
 
         if self.group.bonus_setting in (config_constants.PARTICIPATION , config_constants.NEGOTIATION):
             form_fields = [
-                'q11',
-                'q12'
+                'q12',
+                'q13'
             ]
         else:
             form_fields = [
-                'q11',
+                'q12',
             ]
 
         return form_fields
@@ -198,13 +255,13 @@ class WSurvey3(Page):
             bonus_setting=self.group.bonus_setting,
         )
 
-class WSurvey4(Page):
+class WSurvey5(Page):
     """Procedural justice questions"""
     form_model = 'player'
     form_fields = [
-        'q13',
         'q14',
         'q15',
+        'q16',
     ]
 
     def is_displayed(self):
@@ -216,13 +273,13 @@ class WSurvey4(Page):
             bonus_setting=self.group.bonus_setting,
         )
 
-class MSurvey3(Page):
+class MSurvey4(Page):
     """Procedural justice questions"""
     form_model = 'player'
     form_fields = [
-        'q13',
         'q14',
         'q15',
+        'q16',
     ]
 
     def is_displayed(self):
@@ -235,7 +292,7 @@ class MSurvey3(Page):
         )
 
 
-class MSurvey3D(Page):
+class MSurvey4D(Page):
     """Manager only questions (discretion only)"""
     form_model = 'player'
 
@@ -243,27 +300,27 @@ class MSurvey3D(Page):
 
         if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
             return [
-                'q16',
                 'q17',
                 'q18',
                 'q19',
-                # 'q20',
+                'q20',
+                # 'q21',
             ]
         elif self.group.bonus_setting == config_constants.NEGOTIATION:
             return [
-                'q16',
                 'q17',
                 'q18',
                 'q19',
-                # 'q20',
+                'q20',
+                # 'q21',
             ]
         else:
             return [
-                # 'q16',
                 # 'q17',
-                'q18',
-                # 'q19',
+                # 'q18',
+                'q19',
                 # 'q20',
+                # 'q21',
             ]
 
     def is_displayed(self):
@@ -275,7 +332,7 @@ class MSurvey3D(Page):
             bonus_setting=self.group.bonus_setting,
         )
 
-class MSurvey4D(Page):
+class MSurvey5D(Page):
     """Manager only questions (discretion only)"""
     form_model = 'player'
 
@@ -283,26 +340,26 @@ class MSurvey4D(Page):
 
         if self.group.bonus_setting == config_constants.PARTICIPATION:
             return [
-                'q20',
                 'q21',
                 'q22',
                 'q23',
                 'q24',
+                'q25',
             ]
         elif self.group.bonus_setting == config_constants.NEGOTIATION:
             return [
-                'q20',
                 'q21',
                 'q22',
                 'q23',
                 'q24',
+                'q25',
             ]
         else:
             return [
-                'q20',
-                'q22',
+                'q21',
                 'q23',
                 'q24',
+                'q25',
             ]
 
     def is_displayed(self):
@@ -317,11 +374,11 @@ class MSurvey4D(Page):
     @staticmethod
     def error_message(values):
         fields =  [
-                'q20',
                 'q21',
                 'q22',
                 'q23',
                 'q24',
+                'q25',
             ]
 
         total = 0
@@ -332,7 +389,7 @@ class MSurvey4D(Page):
             return f"The total of questions must equal 100. The current total is {total}."
 
 
-class MSurvey3ND(Page):
+class MSurvey4ND(Page):
     """Manager only questions (no discretion)"""
     form_model = 'player'
 
@@ -340,24 +397,24 @@ class MSurvey3ND(Page):
 
         if self.group.bonus_setting == config_constants.NO_PARTICIPATION:
             return [
-                'q25',
                 'q26',
                 'q27',
                 'q28',
+                'q29',
             ]
         elif self.group.bonus_setting == config_constants.NEGOTIATION:
             return [
-                'q25',
                 'q26',
                 'q27',
                 'q28',
+                'q29',
             ]
         else:
             return [
-                # 'q25',
                 # 'q26',
-                'q27',
-                # 'q28',
+                # 'q27',
+                'q28',
+                # 'q29',
             ]
 
     def is_displayed(self):
@@ -380,4 +437,4 @@ class Demographics(Page):
 
 # ======================================================================================
 
-page_sequence = [WSurvey1, MSurvey1, WSurvey2, MSurvey2, WSurvey3, WSurvey4, MSurvey3, MSurvey3ND, MSurvey3D, MSurvey4D, Demographics]
+page_sequence = [WSurvey1, MSurvey1, WSurvey2, MSurvey2, WSurvey3, MSurvey3, WSurvey4, WSurvey5, MSurvey4, MSurvey4ND, MSurvey4D, MSurvey5D, Demographics]
