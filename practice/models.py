@@ -23,7 +23,7 @@ payoffs.
 
 class Constants(BaseConstants):
     name_in_url = 'practice'
-    players_per_group = None
+    players_per_group = 2
     num_rounds = 1
 
     # manager = 'manager'
