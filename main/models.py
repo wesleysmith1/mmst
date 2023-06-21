@@ -7,6 +7,7 @@ from otree.api import (
     BasePlayer,
     Currency as c,
     currency_range,
+    ExtraModel
 )
 
 from config import bonus_setting, discretion
@@ -273,6 +274,8 @@ class Player(BasePlayer):
             # updated group data
             update = dict(round=self.group.target_round, proposal=self.group.proposed_target)
 
+            NegotiationModel.create(group=self.group, player=self, target=self.group.proposed_target)
+
             return {self.id_in_group: update, other_id: update}
 
     def live_game(self, data):
@@ -310,3 +313,16 @@ class Player(BasePlayer):
                     break
             else: 
                 self.decodes_completed += 1
+
+
+def custom_export(players):
+    items = NegotiationModel.filter()
+    yield ['group', 'player', 'round', 'target']
+    for item in items:
+        yield [item.group_id, item.player_id, item.player.round_number, item.target]
+
+
+class NegotiationModel(ExtraModel):
+    group = models.Link(Group)
+    player = models.Link(Player)
+    target = models.IntegerField()
