@@ -33,6 +33,3 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     final_payment = models.CurrencyField()
     payment_round = models.IntegerField()
-    email = models.StringField(
-        label="Please enter the email address we should use to send you payment."
-    )

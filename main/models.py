@@ -317,9 +317,9 @@ class Player(BasePlayer):
 
 def custom_export(players):
     items = NegotiationModel.filter()
-    yield ['group', 'player', 'round', 'target']
+    yield ['group', 'participant_code', 'round', 'target']
     for item in items:
-        yield [item.group_id, item.player_id, item.player.round_number, item.target]
+        yield [item.group_id, item.player.participant.code, item.player.round_number, item.target]
 
 
 class NegotiationModel(ExtraModel):
