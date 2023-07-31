@@ -22,13 +22,9 @@ class PaymentInfo(Page):
             lira_per_dollar=config.lira_per_dollar,
         )
 
-class Email(Page):
-    form_model='player'
-    form_fields=['email']
-
 
 class Final(Page):
     pass
 
 
-page_sequence = [PaymentInfo, Email, Final]
+page_sequence = [PaymentInfo, Final]
